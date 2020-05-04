@@ -15,4 +15,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="table">Table</string>
+    <string name="fixtures">Fixtures</string>
+    <string name="check_current_tables">Check current tables</string>
+    <string name="view_upcoming_fixtures">View upcoming fixtures</string>
 </resources>

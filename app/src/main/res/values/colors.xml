@@ -8,4 +8,8 @@
     <color name="white">#ffffff</color>
     <color name="gray_dove_light">#666666</color>
     <color name="gray_mercury">#E1E1E1</color>
+    <color name="color_background">#FCFCFC</color>
+    <color name="deep_purple">#7C4DFF</color>
+    <color name="green">#00BFA5</color>
+    <color name="yellow">#FFB300</color>
 </resources>
