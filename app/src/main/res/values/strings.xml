@@ -15,4 +15,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="table">Table</string>
+    <string name="fixtures">Fixtures</string>
+    <string name="check_current_tables">Check current tables</string>
+    <string name="view_upcoming_fixtures">View upcoming fixtures</string>
+    <string name="add_new_match">Add new match</string>
+    <string name="team_1">Team 1</string>
+    <string name="team_2">Team 2</string>
+    <string name="score">Score</string>
+    <string name="submit">Submit</string>
 </resources>
