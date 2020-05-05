@@ -24,4 +24,9 @@
     <string name="team_2">Team 2</string>
     <string name="score">Score</string>
     <string name="submit">Submit</string>
+    <string name="tournament_name">Tournament name</string>
+    <string name="enter_name">Enter name</string>
+    <string name="teams_count">Teams count</string>
+    <string name="tournament_type">Tournament type</string>
+    <string name="generate_schedules">Generate schedules</string>
 </resources>

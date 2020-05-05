@@ -21,12 +21,11 @@
 
         <ImageView
             android:id="@+id/iv_tournament"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/tour_circle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_tournament_title"

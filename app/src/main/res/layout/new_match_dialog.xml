@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="@dimen/min_layout_padding">
 
     <TextView
@@ -73,7 +73,8 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/et_score_team_2"
         app:layout_constraintEnd_toStartOf="@+id/et_score_team_2"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/edit_text_square_style"/>
 
     <EditText
         android:id="@+id/et_score_team_2"
@@ -85,7 +86,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/tv_score" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_score"
+        android:background="@drawable/edit_text_square_style"/>
 
     <TextView
         android:id="@+id/textView2"

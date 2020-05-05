@@ -1,4 +1,4 @@
-package com.abzagabekov.tournamentapp.ui
+package com.abzagabekov.tournamentapp.ui.fixtures
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,14 +13,14 @@ import com.abzagabekov.tournamentapp.R
  * email: abzagabekov@gmail.com
  */
 
-class TournamentFragment : Fragment() {
+class FixturesFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.tournament_fragment, container, false)
+        return inflater.inflate(R.layout.fixtures_fragment, container, false)
     }
 
 }
