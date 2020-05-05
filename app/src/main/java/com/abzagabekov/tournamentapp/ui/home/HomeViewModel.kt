@@ -3,11 +3,27 @@ package com.abzagabekov.tournamentapp.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.abzagabekov.tournamentapp.getTournaments
+import com.abzagabekov.tournamentapp.pojo.Tournament
 
 class HomeViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    private val _tournaments = MutableLiveData<List<Tournament>>().apply {
+        value = getTournaments()
     }
-    val text: LiveData<String> = _text
+    val tournaments: LiveData<List<Tournament>>
+        get() = _tournaments
+
+
+    private val _navigateToSelectedTournament = MutableLiveData<Tournament>()
+    val navigateToSelectedTournament: LiveData<Tournament>
+        get() = _navigateToSelectedTournament
+
+    fun displayTournamentMenu(tournament: Tournament) {
+        _navigateToSelectedTournament.value = tournament
+    }
+
+    fun displayTournamentMenuComplete() {
+        _navigateToSelectedTournament.value = null
+    }
 }

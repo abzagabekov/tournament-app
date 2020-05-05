@@ -14,6 +14,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
+/**
+ * Created by abzagabekov on 05.05.2020.
+ * email: abzagabekov@gmail.com
+ */
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration

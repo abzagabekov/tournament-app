@@ -12,22 +12,13 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
-            app:destination="@id/nav_home_second" />
-    </fragment>
-    <fragment
-        android:id="@+id/nav_home_second"
-        android:name="com.abzagabekov.tournamentapp.ui.home.HomeSecondFragment"
-        android:label="@string/home_second"
-        tools:layout="@layout/fragment_home_second">
+            android:id="@+id/action_nav_home_to_tournamentFragment"
+            app:destination="@id/tournamentFragment" />
         <action
-            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
-            app:destination="@id/nav_home" />
-
-        <argument
-            android:name="myArg"
-            app:argType="string" />
+            android:id="@+id/action_nav_home_to_newTournamentFragment"
+            app:destination="@id/newTournamentFragment" />
     </fragment>
+
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -40,4 +31,47 @@
         android:name="com.abzagabekov.tournamentapp.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/tournamentFragment"
+        android:name="com.abzagabekov.tournamentapp.ui.tournament.TournamentFragment"
+        android:label="tournament_fragment"
+        tools:layout="@layout/tournament_fragment" >
+        <action
+            android:id="@+id/action_tournamentFragment_to_tablesFragment"
+            app:destination="@id/tablesFragment" />
+        <action
+            android:id="@+id/action_tournamentFragment_to_fixturesFragment"
+            app:destination="@id/fixturesFragment" />
+        <action
+            android:id="@+id/action_tournamentFragment_to_newMatchFragment"
+            app:destination="@id/newMatchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tablesFragment"
+        android:name="com.abzagabekov.tournamentapp.ui.tables.TablesFragment"
+        android:label="tables_fragment"
+        tools:layout="@layout/tables_fragment" />
+    <fragment
+        android:id="@+id/fixturesFragment"
+        android:name="com.abzagabekov.tournamentapp.ui.fixtures.FixturesFragment"
+        android:label="fixtures_fragment"
+        tools:layout="@layout/fixtures_fragment" >
+        <action
+            android:id="@+id/action_fixturesFragment_to_newMatchFragment"
+            app:destination="@id/newMatchFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newTournamentFragment"
+        android:name="com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentFragment"
+        android:label="new_tournament_fragment"
+        tools:layout="@layout/new_tournament_fragment" >
+        <action
+            android:id="@+id/action_newTournamentFragment_to_tournamentFragment"
+            app:destination="@id/tournamentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newMatchFragment"
+        android:name="com.abzagabekov.tournamentapp.ui.newMatch.NewMatchFragment"
+        android:label="new_match_fragment"
+        tools:layout="@layout/new_match_fragment" />
 </navigation>
