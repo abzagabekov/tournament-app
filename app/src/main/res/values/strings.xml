@@ -29,4 +29,10 @@
     <string name="teams_count">Teams count</string>
     <string name="tournament_type">Tournament type</string>
     <string name="generate_schedules">Generate schedules</string>
+
+    <string-array name="tournament_types_array">
+        <item>League</item>
+        <item>Knockout</item>
+    </string-array>
+
 </resources>

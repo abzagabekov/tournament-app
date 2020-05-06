@@ -35,7 +35,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/ic_add_white_24dp"
-            app:backgroundTint="@color/colorAccentSecondary" />
+            app:backgroundTint="@color/colorAccentSecondary"
+            android:onClick="@{() -> viewModel.addNewTournament()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

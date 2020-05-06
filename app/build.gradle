@@ -77,6 +77,9 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
     // Circle image view
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version_kotlin_coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version_kotlin_coroutines"
     // Tests
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     testImplementation 'junit:junit:4.12'

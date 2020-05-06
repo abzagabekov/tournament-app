@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -43,7 +41,12 @@ class HomeFragment : Fragment() {
             }
         })
 
-
+        homeViewModel.navigateToNewTournament.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(HomeFragmentDirections.actionNavHomeToNewTournamentFragment())
+                homeViewModel.doneNavigateToNewTournament()
+            }
+        })
 
         return binding.root
     }

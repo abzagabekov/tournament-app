@@ -19,11 +19,24 @@ class HomeViewModel : ViewModel() {
     val navigateToSelectedTournament: LiveData<Tournament>
         get() = _navigateToSelectedTournament
 
+
+    private val _navigateToNewTournament = MutableLiveData<Boolean>()
+    val navigateToNewTournament: LiveData<Boolean>
+        get() = _navigateToNewTournament
+
     fun displayTournamentMenu(tournament: Tournament) {
         _navigateToSelectedTournament.value = tournament
     }
 
     fun displayTournamentMenuComplete() {
         _navigateToSelectedTournament.value = null
+    }
+
+    fun addNewTournament() {
+        _navigateToNewTournament.value = true
+    }
+
+    fun doneNavigateToNewTournament() {
+        _navigateToNewTournament.value = null
     }
 }
