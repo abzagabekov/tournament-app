@@ -12,6 +12,7 @@ import com.abzagabekov.tournamentapp.pojo.Tournament
  * Created by abzagabekov on 05.05.2020.
  * email: abzagabekov@gmail.com
  */
+
 class TournamentsAdapter(private val onClickListener: OnClickListener) : ListAdapter<Tournament, TournamentsAdapter.TournamentViewHolder>(DiffCallback) {
     companion object DiffCallback : DiffUtil.ItemCallback<Tournament>() {
         override fun areItemsTheSame(oldItem: Tournament, newItem: Tournament): Boolean {
@@ -27,7 +28,9 @@ class TournamentsAdapter(private val onClickListener: OnClickListener) : ListAda
         parent: ViewGroup,
         viewType: Int
     ): TournamentViewHolder {
-        return TournamentViewHolder(ItemViewTournamentBinding.inflate(LayoutInflater.from(parent.context)))
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ItemViewTournamentBinding.inflate(layoutInflater, parent, false)
+        return TournamentViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TournamentsAdapter.TournamentViewHolder, position: Int) {
@@ -41,6 +44,7 @@ class TournamentsAdapter(private val onClickListener: OnClickListener) : ListAda
     class TournamentViewHolder(private val binding: ItemViewTournamentBinding) : RecyclerView.ViewHolder(binding.root) {
        fun bind(tournament: Tournament) {
            binding.tournament = tournament
+           binding.executePendingBindings()
        }
     }
 
