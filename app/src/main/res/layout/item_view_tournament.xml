@@ -36,14 +36,14 @@
 
             <TextView
                 android:id="@+id/tv_tournament_title"
+                style="@style/TextView.Primary.Header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Tournament"
-                android:text="@{tournament.name}"
-                style="@style/TextView.Primary.Header"
                 android:layout_marginStart="16dp"
+                android:text="@{tournament.name}"
                 app:layout_constraintStart_toEndOf="@+id/iv_tournament"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Tournament" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

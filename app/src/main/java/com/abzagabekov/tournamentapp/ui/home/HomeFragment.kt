@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -25,14 +22,17 @@ class HomeFragment : Fragment() {
 
         val binding = FragmentHomeBinding.inflate(inflater)
 
+        binding.lifecycleOwner = this
+
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         binding.viewModel = homeViewModel
-        binding.lifecycleOwner = this
 
         val adapter = TournamentsAdapter(TournamentsAdapter.OnClickListener {
             homeViewModel.displayTournamentMenu(it)
         })
+
+        binding.rvTournaments.adapter = adapter
 
         homeViewModel.navigateToSelectedTournament.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -41,7 +41,12 @@ class HomeFragment : Fragment() {
             }
         })
 
-        binding.rvTournaments.adapter = adapter
+        homeViewModel.navigateToNewTournament.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(HomeFragmentDirections.actionNavHomeToNewTournamentFragment())
+                homeViewModel.doneNavigateToNewTournament()
+            }
+        })
 
         return binding.root
     }

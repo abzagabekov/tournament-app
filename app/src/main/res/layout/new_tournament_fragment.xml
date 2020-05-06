@@ -1,97 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.newTournament.NewTournamentFragment"
-    android:padding="@dimen/min_layout_padding">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_tour_name"
-        style="@style/TextView.Primary.Header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tournament_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <variable
+            name="viewModel"
+            type="com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentViewModel" />
+    </data>
 
-    <EditText
-        android:id="@+id/et_tour_name"
-        android:layout_width="390dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/min_layout_padding"
-        android:background="@drawable/edit_text_square_style"
-        android:ems="10"
-        android:hint="@string/enter_name"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="@+id/tv_tour_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tour_name" />
-
-    <TextView
-        android:id="@+id/tv_teams_count"
-        style="@style/TextView.Primary.Header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/teams_count"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_tour_name"
-        android:layout_marginTop="@dimen/min_layout_padding"/>
-
-    <EditText
-        android:id="@+id/et_teams_count"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/min_layout_padding"
-        android:background="@drawable/edit_text_square_style"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="@+id/tv_teams_count"
-        app:layout_constraintTop_toBottomOf="@+id/tv_teams_count" />
-
-    <TextView
-        android:id="@+id/tv_tour_type"
-        style="@style/TextView.Primary.Header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/tournament_type"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_teams_count" />
-
-    <Spinner
-        android:id="@+id/sp_tour_type"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/colorAccentSecondary"
-        app:layout_constraintStart_toStartOf="@+id/tv_tour_type"
-        app:layout_constraintTop_toBottomOf="@id/tv_tour_type" />
+        android:layout_height="match_parent"
+        tools:context=".ui.newTournament.NewTournamentFragment"
+        android:padding="@dimen/min_layout_padding">
 
-    <CheckBox
-        android:id="@+id/cb_generate_fix"
-        style="@style/TextView.Primary.Header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/generate_schedules"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sp_tour_type" />
+        <TextView
+            android:id="@+id/tv_tour_name"
+            style="@style/TextView.Primary.Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tournament_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_submit_tour"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/button_style"
-        android:text="@string/submit"
-        android:textAppearance="@style/Text.Primary"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cb_generate_fix" />
+        <EditText
+            android:id="@+id/et_tour_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/min_layout_padding"
+            android:background="@drawable/edit_text_square_style"
+            android:ems="10"
+            android:hint="@string/enter_name"
+            android:inputType="text"
+            app:layout_constraintStart_toStartOf="@+id/tv_tour_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_tour_name" />
+
+        <TextView
+            android:id="@+id/tv_teams_count"
+            style="@style/TextView.Primary.Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/teams_count"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_tour_name"
+            android:layout_marginTop="@dimen/min_layout_padding" />
+
+        <EditText
+            android:id="@+id/et_teams_count"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            app:layout_constraintDimensionRatio="2:1"
+            android:layout_marginTop="@dimen/min_layout_padding"
+            android:background="@drawable/edit_text_square_style"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="@+id/tv_teams_count"
+            app:layout_constraintTop_toBottomOf="@+id/tv_teams_count" />
+
+        <TextView
+            android:id="@+id/tv_tour_type"
+            style="@style/TextView.Primary.Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/tournament_type"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_teams_count" />
+
+        <Spinner
+            android:id="@+id/sp_tour_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorAccentSecondary"
+            app:layout_constraintStart_toStartOf="@+id/tv_tour_type"
+            app:layout_constraintTop_toBottomOf="@id/tv_tour_type" />
+
+        <CheckBox
+            android:id="@+id/cb_generate_fix"
+            style="@style/TextView.Primary.Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/generate_schedules"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sp_tour_type" />
+
+        <Button
+            android:id="@+id/btn_submit_tour"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/button_style"
+            android:text="@string/submit"
+            android:textAppearance="@style/Text.Primary"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cb_generate_fix"
+            android:onClick="@{() -> viewModel.onCreateNewTournament()}"/>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_submit_tour"/>
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
