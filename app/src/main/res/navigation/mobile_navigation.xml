@@ -73,5 +73,9 @@
         android:id="@+id/newMatchFragment"
         android:name="com.abzagabekov.tournamentapp.ui.newMatch.NewMatchFragment"
         android:label="new_match_fragment"
-        tools:layout="@layout/new_match_fragment" />
+        tools:layout="@layout/new_match_fragment" >
+        <action
+            android:id="@+id/action_newMatchFragment_to_tournamentFragment"
+            app:destination="@id/tournamentFragment" />
+    </fragment>
 </navigation>

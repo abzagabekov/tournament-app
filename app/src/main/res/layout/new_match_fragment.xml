@@ -1,119 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.newMatch.NewMatchFragment"
-    android:padding="@dimen/min_layout_padding">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_new_match"
-        style="@style/TextView.Primary.Header"
-        android:layout_width="397dp"
-        android:layout_height="42dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/add_new_match"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"/>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.abzagabekov.tournamentapp.ui.newMatch.NewMatchViewModel" />
+    </data>
 
-    <TextView
-        android:id="@+id/tv_first_team"
-        style="@style/TextView.Primary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/team_1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_new_match" />
-
-    <Spinner
-        android:id="@+id/sp_first_team"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/colorAccentSecondary"
-        app:layout_constraintTop_toBottomOf="@id/tv_first_team" />
+        android:layout_height="match_parent"
+        tools:context=".ui.newMatch.NewMatchFragment"
+        android:padding="@dimen/min_layout_padding">
 
-    <TextView
-        android:id="@+id/tv_second_team"
-        style="@style/TextView.Primary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/team_2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sp_first_team" />
+        <TextView
+            android:id="@+id/tv_new_match"
+            style="@style/TextView.Primary.Header"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/add_new_match"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center" />
 
-    <Spinner
-        android:id="@+id/sp_second_team"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/colorAccentSecondary"
-        app:layout_constraintTop_toBottomOf="@id/tv_second_team" />
+        <TextView
+            android:id="@+id/tv_first_team"
+            style="@style/TextView.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/team_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_new_match" />
 
-    <TextView
-        android:id="@+id/tv_score"
-        style="@style/TextView.Primary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/score"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sp_second_team" />
+        <Spinner
+            android:id="@+id/sp_first_team"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorAccentSecondary"
+            app:layout_constraintTop_toBottomOf="@id/tv_first_team" />
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBaseline_toBaselineOf="@+id/et_score_team_2"
-        app:layout_constraintEnd_toStartOf="@+id/et_score_team_2"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/edit_text_square_style"/>
+        <TextView
+            android:id="@+id/tv_second_team"
+            style="@style/TextView.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/team_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sp_first_team" />
 
-    <EditText
-        android:id="@+id/et_score_team_2"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toBottomOf="@+id/tv_score"
-        android:background="@drawable/edit_text_square_style"/>
+        <Spinner
+            android:id="@+id/sp_second_team"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorAccentSecondary"
+            app:layout_constraintTop_toBottomOf="@id/tv_second_team" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=":"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/editText"
-        app:layout_constraintEnd_toStartOf="@+id/et_score_team_2"
-        app:layout_constraintStart_toEndOf="@+id/editText"
-        app:layout_constraintTop_toTopOf="@+id/editText" />
+        <TextView
+            android:id="@+id/tv_score"
+            style="@style/TextView.Primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/score"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sp_second_team" />
 
-    <Button
-        android:id="@+id/btn_submit_match"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/button_style"
-        android:text="@string/submit"
-        android:textAppearance="@style/Text.Primary"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/et_score_team_2" />
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintBaseline_toBaselineOf="@+id/et_score_team_2"
+            app:layout_constraintEnd_toStartOf="@+id/et_score_team_2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/edit_text_square_style"
+            android:textAlignment="center"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/et_score_team_2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/editText"
+            app:layout_constraintTop_toBottomOf="@+id/tv_score"
+            android:background="@drawable/edit_text_square_style"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editText"
+            app:layout_constraintEnd_toStartOf="@+id/et_score_team_2"
+            app:layout_constraintStart_toEndOf="@+id/editText"
+            app:layout_constraintTop_toTopOf="@+id/editText" />
+
+        <Button
+            android:id="@+id/btn_submit_match"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/button_style"
+            android:text="@string/submit"
+            android:textAppearance="@style/Text.Primary"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_score_team_2"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> viewModel.finishMatch()}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

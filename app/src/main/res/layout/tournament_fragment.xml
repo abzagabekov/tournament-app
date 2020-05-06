@@ -1,111 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.tournament.TournamentFragment">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.abzagabekov.tournamentapp.ui.tournament.TournamentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.tournament.TournamentFragment">
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_table"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="56dp"
-        app:layout_constraintEnd_toStartOf="@+id/cv_fixtures"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_table"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="56dp"
+            app:layout_constraintEnd_toStartOf="@+id/cv_fixtures"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> viewModel.showTables()}">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:background="@drawable/circle_yellow"
-                android:padding="10dp"
-                android:src="@drawable/ic_sort_white_24dp" />
-
-            <TextView
-                style="@style/TextView.Primary.Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/table" />
-
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="5dp"
-                android:background="@color/gray_dove_light" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_thin"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/check_current_tables" />
-        </LinearLayout>
+                android:orientation="vertical">
 
-    </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/circle_yellow"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_sort_white_24dp" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_fixtures"
-        android:layout_width="150dp"
-        android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/cv_table"
-        app:layout_constraintTop_toTopOf="@+id/cv_table">
+                <TextView
+                    style="@style/TextView.Primary.Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/table" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/gray_dove_light" />
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:background="@drawable/circle_green"
-                android:padding="10dp"
-                android:src="@drawable/ic_compare_arrows_white_24dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_thin"
+                    android:gravity="center"
+                    android:text="@string/check_current_tables" />
+            </LinearLayout>
 
-            <TextView
-                style="@style/TextView.Primary.Bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/fixtures" />
+        </androidx.cardview.widget.CardView>
 
-            <View
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_fixtures"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/cv_table"
+            app:layout_constraintTop_toTopOf="@+id/cv_table"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{() -> viewModel.showFixtures()}">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="5dp"
-                android:background="@color/gray_dove_light" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_thin"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/view_upcoming_fixtures" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                android:orientation="vertical">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_new_tournament"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/ic_football_outline"
-        app:backgroundTint="@color/colorAccent"/>
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:background="@drawable/circle_green"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_compare_arrows_white_24dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    style="@style/TextView.Primary.Bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/fixtures" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/gray_dove_light" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_thin"
+                    android:gravity="center"
+                    android:text="@string/view_upcoming_fixtures" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_new_tournament"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_football_outline"
+            app:backgroundTint="@color/colorAccent"
+            android:onClick="@{() -> viewModel.playNewMatch()}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
