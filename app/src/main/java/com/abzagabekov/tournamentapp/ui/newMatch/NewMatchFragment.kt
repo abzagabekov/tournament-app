@@ -41,6 +41,14 @@ class NewMatchFragment : Fragment() {
         initSpinner(binding.spFirstTeam)
         initSpinner(binding.spSecondTeam)
 
+        viewModel.eventCreateNewMatch.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                binding.progressBar.visibility = View.VISIBLE
+            } else {
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+
         viewModel.navigateToTournamentMenu.observe(viewLifecycleOwner, Observer {
             if (it) {
                 findNavController().navigate(NewMatchFragmentDirections.actionNewMatchFragmentToTournamentFragment())
