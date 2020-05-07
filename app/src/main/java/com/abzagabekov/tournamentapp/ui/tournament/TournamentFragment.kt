@@ -60,6 +60,13 @@ class TournamentFragment : Fragment() {
             }
         })
 
+        viewModel.navigateToTeams.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                findNavController().navigate(TournamentFragmentDirections.actionTournamentFragmentToTeamsFragment(it))
+                viewModel.showTeamsComplete()
+            }
+        })
+
         return binding.root
     }
 

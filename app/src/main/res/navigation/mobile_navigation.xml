@@ -48,6 +48,9 @@
         <argument
             android:name="tournament"
             app:argType="com.abzagabekov.tournamentapp.pojo.Tournament" />
+        <action
+            android:id="@+id/action_tournamentFragment_to_teamsFragment"
+            app:destination="@id/teamsFragment" />
     </fragment>
     <fragment
         android:id="@+id/tablesFragment"
@@ -78,4 +81,13 @@
         android:name="com.abzagabekov.tournamentapp.ui.newMatch.NewMatchFragment"
         android:label="new_match_fragment"
         tools:layout="@layout/new_match_fragment" />
+    <fragment
+        android:id="@+id/teamsFragment"
+        android:name="com.abzagabekov.tournamentapp.ui.teams.TeamsFragment"
+        android:label="TeamsFragment"
+        tools:layout="@layout/fragment_teams">
+        <argument
+            android:name="tournamentId"
+            app:argType="long" />
+    </fragment>
 </navigation>

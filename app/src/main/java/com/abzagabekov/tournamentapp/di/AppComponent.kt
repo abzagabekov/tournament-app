@@ -2,6 +2,7 @@ package com.abzagabekov.tournamentapp.di
 
 import com.abzagabekov.tournamentapp.ui.home.HomeFragment
 import com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentFragment
+import com.abzagabekov.tournamentapp.ui.teams.TeamsFragment
 import dagger.Component
 import javax.inject.Singleton
 
@@ -16,4 +17,6 @@ interface AppComponent {
 
     fun inject(fragment: HomeFragment)
     fun inject(fragment: NewTournamentFragment)
+    fun inject(fragment: TeamsFragment)
+
 }

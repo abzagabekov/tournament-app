@@ -53,7 +53,7 @@ class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
             if (it) {
                 binding.progressBar.visibility = View.VISIBLE
                 try {
-                    val tournamentName = binding.etTourName.text.toString()
+                    val tournamentName = binding.etTourName.text.toString().trim()
                     val teamsCount = binding.etTeamsCount.text.toString().toInt()
                     viewModel.createNewTournament(tournamentName, teamsCount)
                 } catch (e: Exception) {

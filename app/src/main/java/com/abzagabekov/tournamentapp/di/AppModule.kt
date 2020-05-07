@@ -3,6 +3,7 @@ package com.abzagabekov.tournamentapp.di
 import android.content.Context
 import androidx.room.Room
 import com.abzagabekov.tournamentapp.database.AppDatabase
+import com.abzagabekov.tournamentapp.database.TeamDao
 import com.abzagabekov.tournamentapp.database.TournamentDao
 import dagger.Module
 import dagger.Provides
@@ -20,6 +21,12 @@ class AppModule(private val applicationContext: Context) {
     @Singleton
     fun tournamentDao(appDatabase: AppDatabase): TournamentDao {
         return appDatabase.tournamentDao
+    }
+
+    @Provides
+    @Singleton
+    fun teamDao(appDatabase: AppDatabase): TeamDao {
+        return appDatabase.teamDao
     }
 
     @Provides

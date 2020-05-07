@@ -32,6 +32,9 @@
     <string name="teams">Teams</string>
     <string name="add_or_view_teams">Add or view teams</string>
     <string name="error_check_inputs">Error! Check inputs!</string>
+    <string name="team_name">Team name</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
 
     <string-array name="tournament_types_array">
         <item>League</item> <!-- TYPE_LEAGUE position 0 -->

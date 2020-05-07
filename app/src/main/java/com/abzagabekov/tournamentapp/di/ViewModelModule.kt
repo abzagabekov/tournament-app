@@ -3,6 +3,7 @@ package com.abzagabekov.tournamentapp.di
 import androidx.lifecycle.ViewModel
 import com.abzagabekov.tournamentapp.ui.home.HomeViewModel
 import com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentViewModel
+import com.abzagabekov.tournamentapp.ui.teams.TeamsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -24,4 +25,9 @@ abstract class ViewModelModule {
     @Binds
     @ViewModelKey(NewTournamentViewModel::class)
     abstract fun newTournamentViewModel(newTournamentViewModel: NewTournamentViewModel): ViewModel
+
+    @IntoMap
+    @Binds
+    @ViewModelKey(TeamsViewModel::class)
+    abstract fun teamsViewModel(teamsViewModel: TeamsViewModel): ViewModel
 }
