@@ -3,17 +3,18 @@ package com.abzagabekov.tournamentapp.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.abzagabekov.tournamentapp.database.TournamentDao
 import com.abzagabekov.tournamentapp.getTournaments
 import com.abzagabekov.tournamentapp.pojo.Tournament
+import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel @Inject constructor(private val tournamentDataSource: TournamentDao) : ViewModel() {
 
-    private val _tournaments = MutableLiveData<List<Tournament>>().apply {
-        value = getTournaments()
-    }
-    val tournaments: LiveData<List<Tournament>>
-        get() = _tournaments
+    private val viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    val tournaments = tournamentDataSource.getAllTournaments()
 
     private val _navigateToSelectedTournament = MutableLiveData<Tournament>()
     val navigateToSelectedTournament: LiveData<Tournament>
@@ -38,5 +39,16 @@ class HomeViewModel : ViewModel() {
 
     fun doneNavigateToNewTournament() {
         _navigateToNewTournament.value = null
+    }
+
+    private suspend fun insertTournament(tournament: Tournament) {
+        withContext(Dispatchers.IO) {
+            tournamentDataSource.insert(tournament)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 }

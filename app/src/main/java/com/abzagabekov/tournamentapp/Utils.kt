@@ -16,12 +16,12 @@ fun getTournaments() = arrayListOf(
 )
 
 fun getMatches() = arrayListOf(
-    Match(0, "Barcelona", "Real Madrid", 2, 2, 0),
-    Match(1, "Atletico", "Valencia", 1, 3, 0),
-    Match(2, "Manchester United", "Chelsea", 3, 3, 1),
-    Match(3, "Tottenham", "Arsenal", 3, 0, 1),
-    Match(4, "Bayern", "Borussia", 4, 2, 2),
-    Match(5, "Wolfsburg", "Bayer", 1, 1, 2)
+    Match(0, 0, 0, 2, 2, 0),
+    Match(1, 0, 0, 1, 3, 0),
+    Match(2, 0, 0, 3, 3, 1),
+    Match(3, 0, 0, 3, 0, 1),
+    Match(4, 0, 0, 4, 2, 2),
+    Match(5, 0, 0, 1, 1, 2)
 )
 
 fun getTeams() = arrayListOf(

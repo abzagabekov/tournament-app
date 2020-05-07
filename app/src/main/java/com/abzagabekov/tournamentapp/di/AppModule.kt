@@ -1,0 +1,30 @@
+package com.abzagabekov.tournamentapp.di
+
+import android.content.Context
+import androidx.room.Room
+import com.abzagabekov.tournamentapp.database.AppDatabase
+import com.abzagabekov.tournamentapp.database.TournamentDao
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
+
+/**
+ * Created by abzagabekov on 07.05.2020.
+ * email: abzagabekov@gmail.com
+ */
+
+@Module
+class AppModule(private val applicationContext: Context) {
+
+    @Provides
+    @Singleton
+    fun tournamentDao(appDatabase: AppDatabase): TournamentDao {
+        return appDatabase.tournamentDao
+    }
+
+    @Provides
+    @Singleton
+    fun appDatabase(): AppDatabase {
+        return Room.databaseBuilder(applicationContext, AppDatabase::class.java, AppDatabase.DB_NAME).fallbackToDestructiveMigration().build()
+    }
+}

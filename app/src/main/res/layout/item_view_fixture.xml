@@ -1,62 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/gray_mercury"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="8dp"
-    android:clickable="true"
-    android:foreground="?attr/selectableItemBackground"
-    android:layout_margin="4dp"
-    android:focusable="true">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+        <variable
+            name="match"
+            type="com.abzagabekov.tournamentapp.pojo.Match" />
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/min_layout_padding">
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/gray_mercury"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="8dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:layout_margin="4dp"
+        android:focusable="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/min_layout_padding">
 
 
-        <ImageView
-            android:id="@+id/iv_icon_team_1"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+            <ImageView
+                android:id="@+id/iv_icon_team_1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@android:drawable/sym_def_app_icon" />
 
-        <TextView
-            android:id="@+id/tv_team_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextView.Primary.Bold"
-            android:layout_margin="4dp"
-            tools:text="Team 1"
-            app:layout_constraintStart_toEndOf="@+id/iv_icon_team_1"
-            app:layout_constraintTop_toTopOf="@+id/iv_icon_team_1" />
+            <TextView
+                android:id="@+id/tv_team_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Primary.Bold"
+                android:layout_margin="4dp"
+                tools:text="Team 1"
 
-        <ImageView
-            android:id="@+id/iv_icon_team_2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="@dimen/min_layout_padding"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_icon_team_1"
-            app:srcCompat="@android:drawable/sym_def_app_icon" />
+                app:layout_constraintStart_toEndOf="@+id/iv_icon_team_1"
+                app:layout_constraintTop_toTopOf="@+id/iv_icon_team_1" />
 
-        <TextView
-            android:id="@+id/tv_team_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextView.Primary.Bold"
-            android:layout_margin="4dp"
-            tools:text="Team 2"
-            app:layout_constraintStart_toEndOf="@+id/iv_icon_team_2"
-            app:layout_constraintTop_toTopOf="@+id/iv_icon_team_2" />
+            <ImageView
+                android:id="@+id/iv_icon_team_2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="@dimen/min_layout_padding"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_icon_team_1"
+                app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+            <TextView
+                android:id="@+id/tv_team_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextView.Primary.Bold"
+                android:layout_margin="4dp"
+                tools:text="Team 2"
+
+                app:layout_constraintStart_toEndOf="@+id/iv_icon_team_2"
+                app:layout_constraintTop_toTopOf="@+id/iv_icon_team_2" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
