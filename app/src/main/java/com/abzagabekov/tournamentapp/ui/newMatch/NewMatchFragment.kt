@@ -51,7 +51,7 @@ class NewMatchFragment : Fragment() {
 
         viewModel.navigateToTournamentMenu.observe(viewLifecycleOwner, Observer {
             if (it) {
-                findNavController().navigate(NewMatchFragmentDirections.actionNewMatchFragmentToTournamentFragment())
+                findNavController().navigateUp()
                 viewModel.doneFinishMatch()
             }
         })

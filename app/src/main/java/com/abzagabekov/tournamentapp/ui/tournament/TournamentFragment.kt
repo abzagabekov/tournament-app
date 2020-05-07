@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 
 import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.TournamentFragmentBinding
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 /**
  * Created by abzagabekov on 05.05.2020.
@@ -29,6 +30,11 @@ class TournamentFragment : Fragment() {
         val binding = TournamentFragmentBinding.inflate(inflater)
 
         viewModel = ViewModelProvider(this).get(TournamentViewModel::class.java)
+
+        val arguments = TournamentFragmentArgs.fromBundle(requireArguments())
+        viewModel.currentTournament = arguments.tournament
+
+        requireActivity().toolbar.title = viewModel.currentTournament.name
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel

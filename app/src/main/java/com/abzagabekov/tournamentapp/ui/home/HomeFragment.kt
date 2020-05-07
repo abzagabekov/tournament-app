@@ -1,14 +1,13 @@
 package com.abzagabekov.tournamentapp.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.abzagabekov.tournamentapp.App
+import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.FragmentHomeBinding
 import com.abzagabekov.tournamentapp.ui.ViewModelFactory
 import javax.inject.Inject
@@ -42,7 +41,7 @@ class HomeFragment : Fragment() {
 
         homeViewModel.navigateToSelectedTournament.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(HomeFragmentDirections.actionNavHomeToTournamentFragment())
+                findNavController().navigate(HomeFragmentDirections.actionNavHomeToTournamentFragment(it))
                 homeViewModel.displayTournamentMenuComplete()
             }
         })
@@ -54,6 +53,12 @@ class HomeFragment : Fragment() {
             }
         })
 
+        setHasOptionsMenu(true)
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

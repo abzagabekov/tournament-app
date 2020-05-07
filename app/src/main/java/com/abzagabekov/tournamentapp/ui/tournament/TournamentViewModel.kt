@@ -3,6 +3,7 @@ package com.abzagabekov.tournamentapp.ui.tournament
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.abzagabekov.tournamentapp.pojo.Tournament
 
 /**
  * Created by abzagabekov on 06.05.2020.
@@ -10,6 +11,8 @@ import androidx.lifecycle.ViewModel
  */
 
 class TournamentViewModel : ViewModel() {
+
+    lateinit var currentTournament: Tournament
 
     private val _navigateToFixtures = MutableLiveData<Boolean>()
     val navigateToFixtures: LiveData<Boolean>

@@ -9,6 +9,9 @@ import com.abzagabekov.tournamentapp.pojo.Tournament
  * email: abzagabekov@gmail.com
  */
 
+const val TYPE_LEAGUE = 0
+const val TYPE_KNOCKOUT = 1
+
 fun getTournaments() = arrayListOf(
     Tournament(0, "League 1", "league", 20),
     Tournament(1, "League 2", "league", 18),

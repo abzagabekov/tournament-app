@@ -12,9 +12,14 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.abzagabekov.tournamentapp.App
 
 import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.NewTournamentFragmentBinding
+import com.abzagabekov.tournamentapp.di.AppComponent
+import com.abzagabekov.tournamentapp.ui.ViewModelFactory
+import java.lang.Exception
+import javax.inject.Inject
 
 
 /**
@@ -24,7 +29,8 @@ import com.abzagabekov.tournamentapp.databinding.NewTournamentFragmentBinding
 
 class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
-    lateinit var viewModel: NewTournamentViewModel
+    @Inject lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel: NewTournamentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +41,9 @@ class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         binding.lifecycleOwner = this
 
-        viewModel = ViewModelProvider(this).get(NewTournamentViewModel::class.java)
+        App.appComponent.inject(this)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(NewTournamentViewModel::class.java)
 
         binding.viewModel = viewModel
 
@@ -44,6 +52,15 @@ class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
         viewModel.eventCreateNewTournament.observe(viewLifecycleOwner, Observer {
             if (it) {
                 binding.progressBar.visibility = View.VISIBLE
+                try {
+                    val tournamentName = binding.etTourName.text.toString()
+                    val teamsCount = binding.etTeamsCount.text.toString().toInt()
+                    viewModel.createNewTournament(tournamentName, teamsCount)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    viewModel.showErrorMessage()
+                }
+
             } else {
                 binding.progressBar.visibility = View.GONE
             }
@@ -51,8 +68,16 @@ class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         viewModel.navigateToTournamentMenu.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(NewTournamentFragmentDirections.actionNewTournamentFragmentToTournamentFragment())
+                findNavController().navigate(NewTournamentFragmentDirections.actionNewTournamentFragmentToTournamentFragment(it))
                 viewModel.doneNavigateToTournamentMenu()
+            }
+        })
+
+        viewModel.eventShowErrorMessage.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                //Toast.makeText(requireContext(), "Error! Check inputs", Toast.LENGTH_SHORT).show()
+                binding.tvError.visibility = View.VISIBLE
+                viewModel.doneShowErrorMessage()
             }
         })
 
@@ -76,8 +101,8 @@ class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     }
 
-    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        viewModel.tournamentType = p0?.getItemAtPosition(p2) as String
+    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+        viewModel.tournamentType = p0?.getItemAtPosition(position) as String
     }
 
 

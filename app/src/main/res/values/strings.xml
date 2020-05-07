@@ -29,10 +29,13 @@
     <string name="teams_count">Teams count</string>
     <string name="tournament_type">Tournament type</string>
     <string name="generate_schedules">Generate schedules</string>
+    <string name="teams">Teams</string>
+    <string name="add_or_view_teams">Add or view teams</string>
+    <string name="error_check_inputs">Error! Check inputs!</string>
 
     <string-array name="tournament_types_array">
-        <item>League</item>
-        <item>Knockout</item>
+        <item>League</item> <!-- TYPE_LEAGUE position 0 -->
+        <item>Knockout</item> <!-- TYPE_KNOCKOUT position 1 -->
     </string-array>
 
 </resources>

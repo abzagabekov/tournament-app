@@ -16,13 +16,25 @@
         android:padding="@dimen/min_layout_padding">
 
         <TextView
+            android:id="@+id/tv_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/error_check_inputs"
+            android:background="@color/red_light"
+            style="@style/TextView.Primary.Bold"
+            android:padding="5dp"
+            android:visibility="gone"/>
+
+        <TextView
             android:id="@+id/tv_tour_name"
             style="@style/TextView.Primary.Header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tournament_name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/tv_error" />
 
         <EditText
             android:id="@+id/et_tour_name"
