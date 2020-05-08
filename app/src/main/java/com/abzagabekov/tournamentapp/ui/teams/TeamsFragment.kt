@@ -40,7 +40,8 @@ class TeamsFragment : Fragment(), NewTeamDialogFragment.NewTeamDialogListener {
         binding.viewModel= viewModel
 
         val arguments = TeamsFragmentArgs.fromBundle(requireArguments())
-        viewModel.tournamentId = arguments.tournamentId
+
+        viewModel.initViewModel(arguments.tournamentId)
 
         binding.rvTeams.adapter = TeamsAdapter(TeamsAdapter.OnClickListener {})
 

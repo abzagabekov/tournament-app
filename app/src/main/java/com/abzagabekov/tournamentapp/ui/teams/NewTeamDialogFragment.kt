@@ -16,6 +16,7 @@ import java.lang.StringBuilder
  * Created by abzagabekov on 07.05.2020.
  * email: abzagabekov@gmail.com
  */
+
 class NewTeamDialogFragment(private val hostFragment: TeamsFragment) : DialogFragment() {
 
     private var listener: NewTeamDialogListener? = null

@@ -18,13 +18,18 @@ class TeamsViewModel @Inject constructor(private val teamDataSource: TeamDao) : 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    var teams = teamDataSource.getAllTeams()
+    lateinit var teams: LiveData<List<Team>>
 
     private val _eventShowNewTeamDialog = MutableLiveData<Boolean>()
     val eventShowNewTeamDialog: LiveData<Boolean>
         get() = _eventShowNewTeamDialog
 
-    var tournamentId: Long? = null
+    private var tournamentId: Long? = null
+
+    fun initViewModel(tournamentId: Long) {
+        this.tournamentId = tournamentId
+        teams = teamDataSource.getTeamsOfTournament(tournamentId)
+    }
 
     fun onAddNewTeam() {
         _eventShowNewTeamDialog.value = true
