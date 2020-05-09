@@ -1,6 +1,8 @@
 package com.abzagabekov.tournamentapp.di
 
+import com.abzagabekov.tournamentapp.ui.fixtures.FixturesFragment
 import com.abzagabekov.tournamentapp.ui.home.HomeFragment
+import com.abzagabekov.tournamentapp.ui.newMatch.NewMatchFragment
 import com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentFragment
 import com.abzagabekov.tournamentapp.ui.teams.TeamsFragment
 import dagger.Component
@@ -18,5 +20,7 @@ interface AppComponent {
     fun inject(fragment: HomeFragment)
     fun inject(fragment: NewTournamentFragment)
     fun inject(fragment: TeamsFragment)
+    fun inject(fragment: FixturesFragment)
+    fun inject(fragment: NewMatchFragment)
 
 }

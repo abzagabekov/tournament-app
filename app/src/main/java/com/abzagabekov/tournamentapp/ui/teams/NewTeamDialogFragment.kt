@@ -30,7 +30,7 @@ class NewTeamDialogFragment(private val hostFragment: TeamsFragment) : DialogFra
         val binding = DialogNewTeamBinding.inflate(inflater!!)
 
         builder.setView(binding.root)
-            .setPositiveButton(R.string.add) { dialog, which ->
+            .setPositiveButton(R.string.add) { _, _ ->
                 val teamName = binding.etTeamName.text.toString().trim()
                 if (teamName.isEmpty()) {
                     dismiss()
@@ -38,7 +38,7 @@ class NewTeamDialogFragment(private val hostFragment: TeamsFragment) : DialogFra
                     listener?.onDialogPositiveClick(teamName)
                 }
             }
-            .setNegativeButton(R.string.cancel) { dialog, which ->
+            .setNegativeButton(R.string.cancel) { _, _ ->
                 dismiss()
             }
 

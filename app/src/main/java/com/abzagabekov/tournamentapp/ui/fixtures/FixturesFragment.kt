@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.abzagabekov.tournamentapp.App
 
 import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.FixturesFragmentBinding
+import com.abzagabekov.tournamentapp.ui.ViewModelFactory
+import javax.inject.Inject
 
 /**
  * Created by abzagabekov on 05.05.2020.
@@ -19,7 +22,8 @@ import com.abzagabekov.tournamentapp.databinding.FixturesFragmentBinding
 
 class FixturesFragment : Fragment() {
 
-    lateinit var viewModel: FixturesViewModel
+    @Inject lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel: FixturesViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,18 +32,29 @@ class FixturesFragment : Fragment() {
 
         val binding = FixturesFragmentBinding.inflate(inflater)
 
-        viewModel = ViewModelProvider(this).get(FixturesViewModel::class.java)
+        App.appComponent.inject(this)
 
-        binding.lifecycleOwner = this
+        viewModel = ViewModelProvider(this, viewModelFactory).get(FixturesViewModel::class.java)
+
+        val arguments = FixturesFragmentArgs.fromBundle(requireArguments())
+        viewModel.initViewModel(arguments.tournamentId)
+
+
         binding.viewModel = viewModel
 
-        binding.rvFixtures.adapter = FixturesAdapter(FixturesAdapter.OnClickListener {
-            viewModel.onPlayMatch()
+        viewModel.teams.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                binding.lifecycleOwner = this
+            }
+        })
+
+        binding.rvFixtures.adapter = FixturesAdapter(viewModel, FixturesAdapter.OnClickListener {
+            viewModel.onPlayMatch(it)
         })
 
         viewModel.navigateToPlayMatch.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                findNavController().navigate(FixturesFragmentDirections.actionFixturesFragmentToNewMatchFragment())
+            it?.let {
+                findNavController().navigate(FixturesFragmentDirections.actionFixturesFragmentToNewMatchFragment(it, viewModel.currentTournament))
                 viewModel.doneNavigateToPlayMatch()
             }
         })

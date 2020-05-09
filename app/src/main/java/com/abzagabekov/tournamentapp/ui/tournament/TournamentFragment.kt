@@ -40,8 +40,8 @@ class TournamentFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.navigateToFixtures.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                findNavController().navigate(TournamentFragmentDirections.actionTournamentFragmentToFixturesFragment())
+            it?.let {
+                findNavController().navigate(TournamentFragmentDirections.actionTournamentFragmentToFixturesFragment(it))
                 viewModel.showFixturesComplete()
             }
         })
@@ -55,7 +55,7 @@ class TournamentFragment : Fragment() {
 
         viewModel.navigateToNewMatch.observe(viewLifecycleOwner, Observer {
             if (it) {
-                findNavController().navigate(TournamentFragmentDirections.actionTournamentFragmentToNewMatchFragment())
+                findNavController().navigate(TournamentFragmentDirections.actionTournamentFragmentToNewMatchFragment(null, viewModel.currentTournament.id))
                 viewModel.playNewMatchComplete()
             }
         })

@@ -12,7 +12,7 @@ import com.abzagabekov.tournamentapp.pojo.Match
  * Created by abzagabekov on 05.05.2020.
  * email: abzagabekov@gmail.com
  */
-class FixturesAdapter(private val clickListener: OnClickListener) : ListAdapter<Match, FixturesAdapter.FixturesViewHolder>(DiffCallback) {
+class FixturesAdapter(val viewModel: FixturesViewModel, private val clickListener: OnClickListener) : ListAdapter<Match, FixturesAdapter.FixturesViewHolder>(DiffCallback) {
 
     companion object DiffCallback : DiffUtil.ItemCallback<Match>() {
         override fun areItemsTheSame(oldItem: Match, newItem: Match): Boolean {
@@ -38,10 +38,11 @@ class FixturesAdapter(private val clickListener: OnClickListener) : ListAdapter<
         holder.bind(item)
     }
 
-    class FixturesViewHolder(private val binding: ItemViewFixtureBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class FixturesViewHolder(private val binding: ItemViewFixtureBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(match: Match) {
             binding.match = match
+            binding.viewModel = viewModel
             binding.executePendingBindings()
         }
     }

@@ -11,11 +11,14 @@ import android.widget.Spinner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.abzagabekov.tournamentapp.App
 import com.abzagabekov.tournamentapp.databinding.NewMatchFragmentBinding
 import com.abzagabekov.tournamentapp.getTeams
 import com.abzagabekov.tournamentapp.pojo.Team
+import com.abzagabekov.tournamentapp.ui.ViewModelFactory
 import com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentFragmentDirections
 import kotlinx.android.synthetic.main.new_match_fragment.*
+import javax.inject.Inject
 
 /**
  * Created by abzagabekov on 05.05.2020.
@@ -24,7 +27,8 @@ import kotlinx.android.synthetic.main.new_match_fragment.*
 
 class NewMatchFragment : Fragment() {
 
-    lateinit var viewModel: NewMatchViewModel
+    @Inject lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel: NewMatchViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,13 +37,22 @@ class NewMatchFragment : Fragment() {
 
         val binding = NewMatchFragmentBinding.inflate(inflater)
 
-        viewModel = ViewModelProvider(this).get(NewMatchViewModel::class.java)
+        App.appComponent.inject(this)
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(NewMatchViewModel::class.java)
+
+        val arguments = NewMatchFragmentArgs.fromBundle(requireArguments())
+        viewModel.initViewModel(arguments.tournamentId, arguments.match)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        initSpinner(binding.spFirstTeam)
-        initSpinner(binding.spSecondTeam)
+        viewModel.teams.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                initSpinners(binding.spFirstTeam, binding.spSecondTeam, it)
+                //initSpinner(binding.spSecondTeam, it)
+            }
+        })
 
         viewModel.eventCreateNewMatch.observe(viewLifecycleOwner, Observer {
             if (it) {
@@ -56,17 +69,30 @@ class NewMatchFragment : Fragment() {
             }
         })
 
+
+
         return binding.root
     }
 
-    private fun initSpinner(spinner: Spinner) {
+    private fun initSpinners(spinnerHome: Spinner, spinnerAway: Spinner, data: List<Team>) {
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            viewModel.teams
+            data.map { it.name }
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+        spinnerHome.adapter = adapter
+        spinnerAway.adapter = adapter
+
+        viewModel.currentMatch?.let {match ->
+            val homeTeam = data.filter { it.id == match.homeTeam }[0]
+            val awayTeam = data.filter { it.id == match.awayTeam }[0]
+
+            val homeTeamPosition = adapter.getPosition(homeTeam.name)
+            val awayTeamPosition = adapter.getPosition(awayTeam.name)
+            spinnerHome.setSelection(homeTeamPosition)
+            spinnerAway.setSelection(awayTeamPosition)
+        }
 
     }
 

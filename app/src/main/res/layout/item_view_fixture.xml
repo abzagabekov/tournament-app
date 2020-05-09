@@ -8,6 +8,9 @@
         <variable
             name="match"
             type="com.abzagabekov.tournamentapp.pojo.Match" />
+        <variable
+            name="viewModel"
+            type="com.abzagabekov.tournamentapp.ui.fixtures.FixturesViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -42,7 +45,8 @@
                 style="@style/TextView.Primary.Bold"
                 android:layout_margin="4dp"
                 tools:text="Team 1"
-
+                app:matchBindHome="@{match}"
+                app:teams="@{viewModel.teams}"
                 app:layout_constraintStart_toEndOf="@+id/iv_icon_team_1"
                 app:layout_constraintTop_toTopOf="@+id/iv_icon_team_1" />
 
@@ -62,7 +66,8 @@
                 style="@style/TextView.Primary.Bold"
                 android:layout_margin="4dp"
                 tools:text="Team 2"
-
+                app:matchBindAway="@{match}"
+                app:teams="@{viewModel.teams}"
                 app:layout_constraintStart_toEndOf="@+id/iv_icon_team_2"
                 app:layout_constraintTop_toTopOf="@+id/iv_icon_team_2" />
 

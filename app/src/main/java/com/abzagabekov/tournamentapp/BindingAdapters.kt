@@ -1,5 +1,6 @@
 package com.abzagabekov.tournamentapp
 
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.abzagabekov.tournamentapp.pojo.Match
@@ -30,4 +31,20 @@ fun bindRVFixtures(recyclerView: RecyclerView, data: List<Match>?) {
 fun bindRVTeams(recyclerView: RecyclerView, data: List<Team>?) {
     val adapter = recyclerView.adapter as TeamsAdapter
     adapter.submitList(data)
+}
+
+@BindingAdapter(value = ["matchBindHome", "teams"])
+fun bindMatchTeamHome(textView: TextView, matchBindHome: Match, teams: List<Team>?) {
+    teams?.let {
+        val homeTeam = teams.filter { it.id == matchBindHome.homeTeam }
+        textView.text = homeTeam[0].name
+    }
+}
+
+@BindingAdapter(value = ["matchBindAway", "teams"])
+fun bindMatchTeamAway(textView: TextView, matchBindAway: Match, teams: List<Team>?) {
+    teams?.let {
+        val awayTeam = teams.filter {it.id == matchBindAway.awayTeam}
+        textView.text = awayTeam[0].name
+    }
 }

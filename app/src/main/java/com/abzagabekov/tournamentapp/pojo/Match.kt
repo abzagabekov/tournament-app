@@ -1,9 +1,11 @@
 package com.abzagabekov.tournamentapp.pojo
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by abzagabekov on 05.05.2020.
@@ -28,6 +30,7 @@ import androidx.room.PrimaryKey
     Index(value = arrayOf("awayTeam"), name = "AwayTeamIndex"),
     Index(value = arrayOf("tournament"), name = "TournamentIndex")
 ))
+@Parcelize
 data class Match(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
@@ -36,5 +39,5 @@ data class Match(
     val homeTeamGoals: Int,
     val awayTeamGoals: Int,
     val tournament: Long
-) {
+) : Parcelable {
 }
