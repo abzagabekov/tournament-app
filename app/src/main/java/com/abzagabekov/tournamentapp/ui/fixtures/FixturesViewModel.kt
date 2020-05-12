@@ -32,8 +32,8 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
 
     fun initViewModel(id: Long) {
         currentTournament = id
-        fixtures = matchDataSource.getMatchesOfTournament(currentTournament!!)
-        teams = teamDataSource.getTeamsOfTournament(currentTournament!!)
+        fixtures = matchDataSource.getMatchesOfTournament(currentTournament)
+        teams = teamDataSource.getTeamsOfTournament(currentTournament)
     }
 
     fun onPlayMatch(match: Match) {

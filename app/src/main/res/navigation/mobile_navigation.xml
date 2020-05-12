@@ -42,9 +42,6 @@
         <action
             android:id="@+id/action_tournamentFragment_to_fixturesFragment"
             app:destination="@id/fixturesFragment" />
-        <action
-            android:id="@+id/action_tournamentFragment_to_newMatchFragment"
-            app:destination="@id/newMatchFragment" />
         <argument
             android:name="tournament"
             app:argType="com.abzagabekov.tournamentapp.pojo.Tournament" />

@@ -172,7 +172,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:src="@drawable/ic_football_outline"
             app:backgroundTint="@color/colorAccent"
-            android:onClick="@{() -> viewModel.playNewMatch()}"/>
+            android:onClick="@{() -> viewModel.showFixtures()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

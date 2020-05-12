@@ -53,13 +53,6 @@ class TournamentFragment : Fragment() {
             }
         })
 
-        viewModel.navigateToNewMatch.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                findNavController().navigate(TournamentFragmentDirections.actionTournamentFragmentToNewMatchFragment(null, viewModel.currentTournament.id))
-                viewModel.playNewMatchComplete()
-            }
-        })
-
         viewModel.navigateToTeams.observe(viewLifecycleOwner, Observer {
             it?.let {
                 findNavController().navigate(TournamentFragmentDirections.actionTournamentFragmentToTeamsFragment(it))
