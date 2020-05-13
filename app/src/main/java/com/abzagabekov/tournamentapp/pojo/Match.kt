@@ -33,11 +33,11 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Match(
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0L,
     val homeTeam: Long,
     val awayTeam: Long,
-    val homeTeamGoals: Int,
-    val awayTeamGoals: Int,
+    var homeTeamGoals: Int? = null,
+    var awayTeamGoals: Int? = null,
     val tournament: Long
 ) : Parcelable {
 }

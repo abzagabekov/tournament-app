@@ -3,10 +3,16 @@ package com.abzagabekov.tournamentapp.ui.newTournament
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.abzagabekov.tournamentapp.FixturesAlgorithm
 import com.abzagabekov.tournamentapp.TYPE_LEAGUE
+import com.abzagabekov.tournamentapp.database.MatchDao
+import com.abzagabekov.tournamentapp.database.TeamDao
 import com.abzagabekov.tournamentapp.database.TournamentDao
+import com.abzagabekov.tournamentapp.pojo.Match
+import com.abzagabekov.tournamentapp.pojo.Team
 import com.abzagabekov.tournamentapp.pojo.Tournament
 import kotlinx.coroutines.*
+import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -15,7 +21,9 @@ import javax.inject.Inject
  * email: abzagabekov@gmail.com
  */
 
-class NewTournamentViewModel @Inject constructor(private val tournamentDataSource: TournamentDao) : ViewModel() {
+class NewTournamentViewModel @Inject constructor(private val tournamentDataSource: TournamentDao,
+                                                 private val matchesDataSource: MatchDao,
+                                                 private val teamDataSource: TeamDao) : ViewModel() {
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -55,6 +63,9 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
             insertTournament(tournament)
 
             val result = withContext(Dispatchers.IO) { tournamentDataSource.getLastTournament() }
+
+            generateSchedule(teamsCount, result!!.id)
+
             _navigateToTournamentMenu.value = result
             _eventCreateNewTournament.value = false
         }
@@ -80,9 +91,62 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
         }
     }
 
+    private suspend fun insertMatches(match: List<Match>) {
+        withContext(Dispatchers.IO) {
+            matchesDataSource.insertMatches(match)
+        }
+    }
+
     private fun checkUserInputs(name: String?, teamsCount: Int?): Boolean {
         return !(tournamentType == null || name == null || teamsCount == null)
     }
+
+    private suspend fun generateSchedule(teamsCount: Int, tournamentId: Long) {
+        val teams = createTeams(teamsCount, tournamentId)
+        val fixtures = FixturesAlgorithm(teams).generateTours()
+        val matches = createMatches(fixtures)
+        insertMatches(matches)
+    }
+
+    private suspend fun createTeams(teamsCount: Int, tournamentId: Long): List<Team> {
+        val teams = ArrayList<Team>()
+        for (i in 1..teamsCount) {
+            teams.add(Team(name = "Team $i", tournament = tournamentId))
+        }
+
+        return withContext(Dispatchers.IO) {
+            teamDataSource.insertTeams(teams)
+            teamDataSource.getTeamsOfTournamentSync(tournamentId)
+        }
+    }
+
+
+
+    private fun createMatches(fixtures: Set<List<MutableList<Team?>>>): List<Match> {
+        /*
+        val result = ArrayList<Match>()
+        val toursCount = (teams.size - 1) * 2
+        val matchesCount = toursCount * teams.size / 2
+        for (i in 0 until matchesCount) {
+            result.add(Match(homeTeam = , awayTeam = 0, tournament = tournamentId))
+        }
+        return result
+
+         */
+        val result = ArrayList<Match>()
+        for (tour in fixtures) {
+            for (match in tour) {
+                result.add(
+                    Match(
+                    homeTeam = match[0]!!.id,
+                        awayTeam = match[1]!!.id,
+                        tournament = match[0]!!.tournament
+                ))
+            }
+        }
+        return result
+    }
+
 
     override fun onCleared() {
         super.onCleared()

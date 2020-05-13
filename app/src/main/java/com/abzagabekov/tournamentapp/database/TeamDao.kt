@@ -17,11 +17,17 @@ interface TeamDao {
     @Insert
     fun insert(team: Team)
 
+    @Insert
+    fun insertTeams(teams: List<Team>)
+
     @Query("SELECT * FROM Team ORDER BY id DESC")
     fun getAllTeams(): LiveData<List<Team>>
 
     @Query("SELECT * FROM Team WHERE tournament = :tournamentId ORDER BY id DESC")
     fun getTeamsOfTournament(tournamentId: Long): LiveData<List<Team>>
+
+    @Query("SELECT * FROM Team WHERE tournament = :tournamentId ORDER BY id")
+    fun getTeamsOfTournamentSync(tournamentId: Long): List<Team>
 
     @Query("SELECT * FROM Team WHERE id = :id")
     fun getTeam(id: Long): Team?

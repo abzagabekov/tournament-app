@@ -27,4 +27,7 @@ data class Team(
     val tournament: Long,
     val totalPoints: Int = 0
 ) {
+    override fun toString(): String {
+        return name
+    }
 }
