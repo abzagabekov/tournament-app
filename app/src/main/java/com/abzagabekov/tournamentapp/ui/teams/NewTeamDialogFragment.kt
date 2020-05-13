@@ -17,9 +17,21 @@ import java.lang.StringBuilder
  * email: abzagabekov@gmail.com
  */
 
-class NewTeamDialogFragment(private val hostFragment: TeamsFragment, private val teamName: String) : DialogFragment() {
+class NewTeamDialogFragment() : DialogFragment() {
 
     private var listener: NewTeamDialogListener? = null
+    private var hostFragment: TeamsFragment? = null
+    private var teamName: String? = null
+
+    companion object {
+
+        fun newInstance(hostFragment: TeamsFragment, teamName: String): NewTeamDialogFragment {
+            val fragment = NewTeamDialogFragment()
+            fragment.hostFragment = hostFragment
+            fragment.teamName = teamName
+            return fragment
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 

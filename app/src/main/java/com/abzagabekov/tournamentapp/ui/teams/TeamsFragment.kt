@@ -47,7 +47,7 @@ class TeamsFragment : Fragment(), NewTeamDialogFragment.NewTeamDialogListener {
 
         viewModel.eventShowNewTeamDialog.observe(viewLifecycleOwner, Observer {
             it?.let {
-                val dialog = NewTeamDialogFragment(this, it.name)
+                val dialog = NewTeamDialogFragment.newInstance(this, it.name)
                 dialog.show(parentFragmentManager, "NewTeamDialogFragment")
             }
         })
