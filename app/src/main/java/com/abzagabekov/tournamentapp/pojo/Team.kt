@@ -21,7 +21,7 @@ import androidx.room.PrimaryKey
 data class Team(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
-    val name: String,
+    var name: String,
     var goalsScored: Int = 0,
     var goalsConceded: Int = 0,
     val tournament: Long,

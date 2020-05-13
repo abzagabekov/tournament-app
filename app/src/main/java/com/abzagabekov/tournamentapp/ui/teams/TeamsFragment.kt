@@ -5,12 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.abzagabekov.tournamentapp.App
 
-import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.FragmentTeamsBinding
 import com.abzagabekov.tournamentapp.ui.ViewModelFactory
 import javax.inject.Inject
@@ -43,13 +41,14 @@ class TeamsFragment : Fragment(), NewTeamDialogFragment.NewTeamDialogListener {
 
         viewModel.initViewModel(arguments.tournamentId)
 
-        binding.rvTeams.adapter = TeamsAdapter(TeamsAdapter.OnClickListener {})
+        binding.rvTeams.adapter = TeamsAdapter(TeamsAdapter.OnClickListener {
+            viewModel.onEditTeam(it)
+        })
 
         viewModel.eventShowNewTeamDialog.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                val dialog = NewTeamDialogFragment(this)
+            it?.let {
+                val dialog = NewTeamDialogFragment(this, it.name)
                 dialog.show(parentFragmentManager, "NewTeamDialogFragment")
-                viewModel.showNewTeamDialogComplete()
             }
         })
 
@@ -57,7 +56,7 @@ class TeamsFragment : Fragment(), NewTeamDialogFragment.NewTeamDialogListener {
     }
 
     override fun onDialogPositiveClick(teamName: String) {
-        viewModel.addNewTeam(teamName)
+        viewModel.editTeam(teamName)
     }
 
 }

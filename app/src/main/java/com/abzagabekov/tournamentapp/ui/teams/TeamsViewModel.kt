@@ -20,8 +20,8 @@ class TeamsViewModel @Inject constructor(private val teamDataSource: TeamDao) : 
 
     lateinit var teams: LiveData<List<Team>>
 
-    private val _eventShowNewTeamDialog = MutableLiveData<Boolean>()
-    val eventShowNewTeamDialog: LiveData<Boolean>
+    private val _eventShowNewTeamDialog = MutableLiveData<Team>()
+    val eventShowNewTeamDialog: LiveData<Team>
         get() = _eventShowNewTeamDialog
 
     private var tournamentId: Long? = null
@@ -31,24 +31,26 @@ class TeamsViewModel @Inject constructor(private val teamDataSource: TeamDao) : 
         teams = teamDataSource.getTeamsOfTournament(tournamentId)
     }
 
-    fun onAddNewTeam() {
-        _eventShowNewTeamDialog.value = true
+    fun onEditTeam(team: Team) {
+        _eventShowNewTeamDialog.value = team
     }
 
     fun showNewTeamDialogComplete() {
-        _eventShowNewTeamDialog.value = false
+        _eventShowNewTeamDialog.value = null
     }
 
-    fun addNewTeam(name: String) {
-        val newTeam = Team(name = name, tournament = tournamentId!!)
+    fun editTeam(name: String) {
         coroutineScope.launch {
-            insertTeam(newTeam)
+            val newTeam = _eventShowNewTeamDialog.value ?: return@launch
+            newTeam.name = name
+            updateTeam(newTeam)
+            showNewTeamDialogComplete()
         }
     }
 
-    private suspend fun insertTeam(team: Team) {
+    private suspend fun updateTeam(team: Team) {
         withContext(Dispatchers.IO) {
-            teamDataSource.insert(team)
+            teamDataSource.update(team)
         }
     }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.abzagabekov.tournamentapp.pojo.Team
 
 /**
@@ -16,6 +17,9 @@ interface TeamDao {
 
     @Insert
     fun insert(team: Team)
+
+    @Update
+    fun update(team: Team)
 
     @Insert
     fun insertTeams(teams: List<Team>)

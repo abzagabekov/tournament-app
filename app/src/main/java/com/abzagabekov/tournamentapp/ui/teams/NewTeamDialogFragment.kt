@@ -17,7 +17,7 @@ import java.lang.StringBuilder
  * email: abzagabekov@gmail.com
  */
 
-class NewTeamDialogFragment(private val hostFragment: TeamsFragment) : DialogFragment() {
+class NewTeamDialogFragment(private val hostFragment: TeamsFragment, private val teamName: String) : DialogFragment() {
 
     private var listener: NewTeamDialogListener? = null
 
@@ -28,6 +28,8 @@ class NewTeamDialogFragment(private val hostFragment: TeamsFragment) : DialogFra
         val inflater = activity?.layoutInflater
 
         val binding = DialogNewTeamBinding.inflate(inflater!!)
+
+        binding.etTeamName.setText(teamName)
 
         builder.setView(binding.root)
             .setPositiveButton(R.string.add) { _, _ ->
