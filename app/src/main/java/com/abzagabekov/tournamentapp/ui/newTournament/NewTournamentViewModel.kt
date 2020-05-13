@@ -123,16 +123,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
 
 
     private fun createMatches(fixtures: Set<List<MutableList<Team?>>>): List<Match> {
-        /*
-        val result = ArrayList<Match>()
-        val toursCount = (teams.size - 1) * 2
-        val matchesCount = toursCount * teams.size / 2
-        for (i in 0 until matchesCount) {
-            result.add(Match(homeTeam = , awayTeam = 0, tournament = tournamentId))
-        }
-        return result
 
-         */
         val result = ArrayList<Match>()
         for (tour in fixtures) {
             for (match in tour) {

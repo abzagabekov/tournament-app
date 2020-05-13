@@ -21,7 +21,7 @@ interface MatchDao {
     @Query("SELECT * FROM `Match` ORDER BY id DESC")
     fun getAllMatches(): LiveData<List<Match>>
 
-    @Query("SELECT * FROM `Match` WHERE tournament = :id ORDER BY id DESC")
+    @Query("SELECT * FROM `Match` WHERE tournament = :id ORDER BY id")
     fun getMatchesOfTournament(id: Long): LiveData<List<Match>>
 
     @Query("SELECT * FROM `Match` WHERE id = :id")
