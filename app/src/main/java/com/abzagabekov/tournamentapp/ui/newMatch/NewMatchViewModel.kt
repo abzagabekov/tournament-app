@@ -50,25 +50,6 @@ class NewMatchViewModel @Inject constructor(private val matchDataSource: MatchDa
         currentMatch = match
         currentTournamentId = tournamentId
         teams = teamDataSource.getTeamsOfTournament(currentTournamentId)
-
-        /*
-        coroutineScope.launch {
-            val teams = withContext(Dispatchers.IO) {
-                teamDataSource.getTeamsOfTournamentSync(currentTournamentId)
-            }
-            initTeams(teams)
-        }
-         */
-    }
-
-    private fun initTeams(teams: List<Team>) {
-        teams.forEach {
-            if (it.id == currentMatch.homeTeam) {
-                homeTeam = it
-            } else if (it.id == currentMatch.awayTeam) {
-                awayTeam = it
-            }
-        }
     }
 
     fun finishMatch(homeTeamGoals: String, awayTeamGoals: String) {

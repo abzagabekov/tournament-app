@@ -81,6 +81,7 @@ class NewMatchFragment : Fragment(), AdapterView.OnItemSelectedListener {
         viewModel.eventShowSameTeamErrorMessage.observe(viewLifecycleOwner, Observer {
             if (it) {
                 Toast.makeText(requireContext(), "Should not be same teams!", Toast.LENGTH_SHORT).show()
+                viewModel.doneShowSameTeamsErrorMessage()
             }
         })
 
