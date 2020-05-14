@@ -2,6 +2,8 @@ package com.abzagabekov.tournamentapp
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MotionEvent
+import android.view.View
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -13,22 +15,31 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import kotlinx.android.synthetic.main.tables_fragment.*
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 /**
  * Created by abzagabekov on 05.05.2020.
  * email: abzagabekov@gmail.com
  */
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), View.OnTouchListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private val move = 200
+    private var ratio = 1F
+    private var baseDist = 0
+    private var baseRatio = 0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -51,5 +62,32 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        if (event?.pointerCount == 2) {
+            val action = event.action
+            val mainAction = action and MotionEvent.ACTION_MASK
+            if (mainAction == MotionEvent.ACTION_POINTER_DOWN) {
+                baseDist = getDistance(event)
+                baseRatio = ratio
+            } else {
+                val scale = (getDistance(event) - baseDist) / move
+                val factor = 2.0.pow(scale).toFloat()
+                ratio = min(1024.0f, max(0.1f, baseRatio * factor))
+                tv_hello.textSize = ratio + 15
+            }
+        }
+        return true
+    }
+
+    private fun getDistance(event: MotionEvent): Int {
+        val dx = (event.getX(0) - event.getX(1))
+        val dy = (event.getY(0) - event.getY(1))
+        return sqrt(dx * dx + dy * dy).toInt()
+    }
+
+    override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
+        return false
     }
 }
