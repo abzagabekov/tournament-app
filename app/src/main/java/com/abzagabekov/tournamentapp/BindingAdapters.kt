@@ -48,3 +48,11 @@ fun bindMatchTeamAway(textView: TextView, matchBindAway: Match, teams: List<Team
         textView.text = awayTeam[0].name
     }
 }
+
+@BindingAdapter("teamGoals")
+fun bindMatchTeamAway(textView: TextView, match: Match) {
+    textView.text = when(textView.id) {
+        R.id.tv_goals_team_1 -> if (match.homeTeamGoals != null) match.homeTeamGoals.toString() else ""
+        else -> if (match.awayTeamGoals != null) match.awayTeamGoals.toString() else ""
+    }
+}

@@ -69,7 +69,10 @@ class NewTeamDialogFragment() : DialogFragment() {
         }
     }
 
-
+    override fun onStop() {
+        super.onStop()
+        dismissAllowingStateLoss()
+    }
 
     interface NewTeamDialogListener {
         fun onDialogPositiveClick(teamName: String)

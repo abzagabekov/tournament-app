@@ -83,8 +83,7 @@
         tools:layout="@layout/new_match_fragment" >
         <argument
             android:name="match"
-            app:argType="com.abzagabekov.tournamentapp.pojo.Match"
-            app:nullable="true" />
+            app:argType="com.abzagabekov.tournamentapp.pojo.Match" />
         <argument
             android:name="tournamentId"
             app:argType="long" />

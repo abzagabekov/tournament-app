@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.ItemViewFixtureBinding
 import com.abzagabekov.tournamentapp.pojo.Match
 
@@ -32,8 +33,10 @@ class FixturesAdapter(val viewModel: FixturesViewModel, private val clickListene
 
     override fun onBindViewHolder(holder: FixturesViewHolder, position: Int) {
         val item = getItem(position)
-        holder.itemView.setOnClickListener {
-            clickListener.onClick(item)
+        if (item.homeTeamGoals == null) {
+            holder.itemView.setOnClickListener {
+                clickListener.onClick(item)
+            }
         }
         holder.bind(item)
     }
@@ -43,6 +46,13 @@ class FixturesAdapter(val viewModel: FixturesViewModel, private val clickListene
         fun bind(match: Match) {
             binding.match = match
             binding.viewModel = viewModel
+
+            /*
+            if (match.homeTeamGoals != null) {
+                binding.root.setBackgroundColor(itemView.resources.getColor(R.color.green_light))
+            }
+             */
+
             binding.executePendingBindings()
         }
     }

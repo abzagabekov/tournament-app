@@ -8,16 +8,19 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.abzagabekov.tournamentapp.App
+import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.NewMatchFragmentBinding
 import com.abzagabekov.tournamentapp.getTeams
 import com.abzagabekov.tournamentapp.pojo.Team
 import com.abzagabekov.tournamentapp.ui.ViewModelFactory
 import com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentFragmentDirections
 import kotlinx.android.synthetic.main.new_match_fragment.*
+import java.text.FieldPosition
 import javax.inject.Inject
 
 /**
@@ -25,7 +28,7 @@ import javax.inject.Inject
  * email: abzagabekov@gmail.com
  */
 
-class NewMatchFragment : Fragment() {
+class NewMatchFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     @Inject lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: NewMatchViewModel
@@ -50,7 +53,6 @@ class NewMatchFragment : Fragment() {
         viewModel.teams.observe(viewLifecycleOwner, Observer {
             it?.let {
                 initSpinners(binding.spFirstTeam, binding.spSecondTeam, it)
-                //initSpinner(binding.spSecondTeam, it)
             }
         })
 
@@ -69,7 +71,18 @@ class NewMatchFragment : Fragment() {
             }
         })
 
+        viewModel.eventShowScoresEmptyMessage.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                Toast.makeText(requireContext(), "Entry scores!", Toast.LENGTH_SHORT).show()
+                viewModel.doneShowScoresEmptyMessage()
+            }
+        })
 
+        viewModel.eventShowSameTeamErrorMessage.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                Toast.makeText(requireContext(), "Should not be same teams!", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         return binding.root
     }
@@ -78,22 +91,40 @@ class NewMatchFragment : Fragment() {
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            data.map { it.name }
+            data
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
         spinnerHome.adapter = adapter
+        spinnerHome.onItemSelectedListener = this
+
         spinnerAway.adapter = adapter
+        spinnerAway.onItemSelectedListener = this
 
         viewModel.currentMatch?.let {match ->
             val homeTeam = data.filter { it.id == match.homeTeam }[0]
             val awayTeam = data.filter { it.id == match.awayTeam }[0]
 
-            val homeTeamPosition = adapter.getPosition(homeTeam.name)
-            val awayTeamPosition = adapter.getPosition(awayTeam.name)
+            val homeTeamPosition = adapter.getPosition(homeTeam)
+            val awayTeamPosition = adapter.getPosition(awayTeam)
             spinnerHome.setSelection(homeTeamPosition)
             spinnerAway.setSelection(awayTeamPosition)
         }
 
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        when(parent?.id) {
+            R.id.sp_first_team ->
+                viewModel.onHomeTeamChanged(parent.getItemAtPosition(position) as Team)
+            R.id.sp_second_team ->
+                viewModel.onAwayTeamChanged(parent.getItemAtPosition(position) as Team)
+
+        }
     }
 
 
