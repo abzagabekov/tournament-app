@@ -26,14 +26,9 @@ import kotlin.math.sqrt
  * email: abzagabekov@gmail.com
  */
 
-class MainActivity : AppCompatActivity(), View.OnTouchListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-
-    private val move = 200
-    private var ratio = 1F
-    private var baseDist = 0
-    private var baseRatio = 0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,30 +59,4 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (event?.pointerCount == 2) {
-            val action = event.action
-            val mainAction = action and MotionEvent.ACTION_MASK
-            if (mainAction == MotionEvent.ACTION_POINTER_DOWN) {
-                baseDist = getDistance(event)
-                baseRatio = ratio
-            } else {
-                val scale = (getDistance(event) - baseDist) / move
-                val factor = 2.0.pow(scale).toFloat()
-                ratio = min(1024.0f, max(0.1f, baseRatio * factor))
-                tv_hello.textSize = ratio + 15
-            }
-        }
-        return true
-    }
-
-    private fun getDistance(event: MotionEvent): Int {
-        val dx = (event.getX(0) - event.getX(1))
-        val dy = (event.getY(0) - event.getY(1))
-        return sqrt(dx * dx + dy * dy).toInt()
-    }
-
-    override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
-        return false
-    }
 }

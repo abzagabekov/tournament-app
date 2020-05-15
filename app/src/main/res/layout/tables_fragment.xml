@@ -10,18 +10,83 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.tables.TablesFragment">
+        tools:context=".ui.tables.TablesFragment"
+        android:padding="@dimen/min_layout_padding">
 
 
-        <TextView
-            android:id="@+id/tv_hello"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_blank_fragment"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableLayout
+                android:id="@+id/table_overview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:stretchColumns="*"
+                android:background="@android:color/white">
+
+                <TableRow
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tr_header"
+                    android:background="@drawable/table_row_bg"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/team"
+                        android:textStyle="bold"
+                        android:textAppearance="@android:style/TextAppearance.Material"
+                        android:background="@drawable/table_cell_bg"
+                        android:layout_marginStart="2dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/games"
+                        android:textStyle="bold"
+                        android:textAppearance="@android:style/TextAppearance.Material"
+                        android:background="@drawable/table_cell_bg"
+                        android:layout_marginStart="2dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/won"
+                        android:textStyle="bold"
+                        android:textAppearance="@android:style/TextAppearance.Material"
+                        android:background="@drawable/table_cell_bg"
+                        android:layout_marginStart="2dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/lost"
+                        android:textStyle="bold"
+                        android:textAppearance="@android:style/TextAppearance.Material"
+                        android:background="@drawable/table_cell_bg"
+                        android:layout_marginStart="2dp"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/points"
+                        android:textStyle="bold"
+                        android:textAppearance="@android:style/TextAppearance.Material"
+                        android:layout_marginStart="2dp"/>
+
+
+
+
+                </TableRow>
+
+
+
+            </TableLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

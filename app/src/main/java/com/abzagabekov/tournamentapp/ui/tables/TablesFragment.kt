@@ -34,8 +34,6 @@ class TablesFragment : Fragment() {
 
         val binding = TablesFragmentBinding.inflate(inflater)
 
-        binding.tvHello.textSize = 1F + 15
-
         return binding.root
     }
 
