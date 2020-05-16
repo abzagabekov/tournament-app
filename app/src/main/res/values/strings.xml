@@ -42,6 +42,7 @@
     <string name="won">Won</string>
     <string name="lost">Lost</string>
     <string name="pos">Pos</string>
+    <string name="gd">GD</string>
 
     <string-array name="tournament_types_array">
         <item>League</item> <!-- TYPE_LEAGUE position 0 -->

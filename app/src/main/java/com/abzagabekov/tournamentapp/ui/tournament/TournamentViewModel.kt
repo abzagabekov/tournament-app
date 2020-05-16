@@ -18,8 +18,8 @@ class TournamentViewModel : ViewModel() {
     val navigateToFixtures: LiveData<Long>
         get() = _navigateToFixtures
 
-    private val _navigateToTables = MutableLiveData<Boolean>()
-    val navigateToTables: LiveData<Boolean>
+    private val _navigateToTables = MutableLiveData<Long>()
+    val navigateToTables: LiveData<Long>
         get() = _navigateToTables
 
     private val _navigateToTeams = MutableLiveData<Long>()
@@ -35,11 +35,11 @@ class TournamentViewModel : ViewModel() {
     }
 
     fun showTables() {
-        _navigateToTables.value = true
+        _navigateToTables.value = currentTournament.id
     }
 
     fun showTablesComplete() {
-        _navigateToTables.value = false
+        _navigateToTables.value = null
     }
 
     fun showTeams() {

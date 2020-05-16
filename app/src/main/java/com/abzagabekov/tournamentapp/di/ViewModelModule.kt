@@ -5,6 +5,7 @@ import com.abzagabekov.tournamentapp.ui.fixtures.FixturesViewModel
 import com.abzagabekov.tournamentapp.ui.home.HomeViewModel
 import com.abzagabekov.tournamentapp.ui.newMatch.NewMatchViewModel
 import com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentViewModel
+import com.abzagabekov.tournamentapp.ui.tables.TablesViewModel
 import com.abzagabekov.tournamentapp.ui.teams.TeamsViewModel
 import dagger.Binds
 import dagger.Module
@@ -42,4 +43,6 @@ abstract class ViewModelModule {
     @Binds
     @ViewModelKey(NewMatchViewModel::class)
     abstract fun newMatchViewModel(newMatchViewModel: NewMatchViewModel): ViewModel
+
+
 }

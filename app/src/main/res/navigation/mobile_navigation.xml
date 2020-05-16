@@ -53,7 +53,11 @@
         android:id="@+id/tablesFragment"
         android:name="com.abzagabekov.tournamentapp.ui.tables.TablesFragment"
         android:label="tables_fragment"
-        tools:layout="@layout/tables_fragment" />
+        tools:layout="@layout/tables_fragment" >
+        <argument
+            android:name="tournamentId"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/fixturesFragment"
         android:name="com.abzagabekov.tournamentapp.ui.fixtures.FixturesFragment"

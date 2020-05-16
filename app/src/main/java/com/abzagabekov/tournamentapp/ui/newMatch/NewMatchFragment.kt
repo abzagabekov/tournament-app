@@ -15,7 +15,6 @@ import androidx.navigation.fragment.findNavController
 import com.abzagabekov.tournamentapp.App
 import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.NewMatchFragmentBinding
-import com.abzagabekov.tournamentapp.getTeams
 import com.abzagabekov.tournamentapp.pojo.Team
 import com.abzagabekov.tournamentapp.ui.ViewModelFactory
 import com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentFragmentDirections

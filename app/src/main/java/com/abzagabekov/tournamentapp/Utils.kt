@@ -1,5 +1,7 @@
 package com.abzagabekov.tournamentapp
 
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import com.abzagabekov.tournamentapp.pojo.Match
 import com.abzagabekov.tournamentapp.pojo.Team
 import com.abzagabekov.tournamentapp.pojo.Tournament
@@ -27,12 +29,9 @@ fun getMatches() = arrayListOf(
     Match(5, 0, 0, 1, 1, 2)
 )
 
-fun getTeams() = arrayListOf(
-    Team(0, "Barcelona", 5, 2, 0, 6),
-    Team(1, "Manchester United", 5, 4, 1, 4),
-    Team(2, "Tottenham", 4, 1, 1, 6),
-    Team(3, "Bayern", 6, 3, 2, 6)
-)
+interface AssistedSavedStateViewModelFactory<T : ViewModel> {
+    fun create(savedStateHandle: SavedStateHandle): T
+}
 
 
 

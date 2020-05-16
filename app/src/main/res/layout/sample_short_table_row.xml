@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tr_item"
+    android:background="@drawable/table_row_last_bg"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    tools:showIn="@layout/tables_fragment">
+
+    <TextView
+        android:id="@+id/tv_team_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/team"
+        android:textStyle="bold"
+        android:textAppearance="@android:style/TextAppearance.Material"
+        android:background="@drawable/table_cell_bg"
+        android:layout_marginStart="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_games_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/games"
+        android:textStyle="bold"
+        android:textAppearance="@android:style/TextAppearance.Material"
+        android:background="@drawable/table_cell_bg"
+        android:layout_marginStart="2dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_gd_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/gd"
+        android:textStyle="bold"
+        android:textAppearance="@android:style/TextAppearance.Material"
+        android:background="@drawable/table_cell_bg"
+        android:layout_marginStart="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_points_item"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/points"
+        android:textStyle="bold"
+        android:textAppearance="@android:style/TextAppearance.Material"
+        android:layout_marginStart="2dp"/>
+</TableRow>

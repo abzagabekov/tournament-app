@@ -4,6 +4,7 @@ import com.abzagabekov.tournamentapp.ui.fixtures.FixturesFragment
 import com.abzagabekov.tournamentapp.ui.home.HomeFragment
 import com.abzagabekov.tournamentapp.ui.newMatch.NewMatchFragment
 import com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentFragment
+import com.abzagabekov.tournamentapp.ui.tables.TablesFragment
 import com.abzagabekov.tournamentapp.ui.teams.TeamsFragment
 import dagger.Component
 import javax.inject.Singleton
@@ -13,7 +14,7 @@ import javax.inject.Singleton
  * email: abzagabekov@gmail.com
  */
 
-@Component(modules = [AppModule::class, ViewModelModule::class])
+@Component(modules = [AppModule::class, ViewModelModule::class, BuilderModule::class])
 @Singleton
 interface AppComponent {
 
@@ -22,5 +23,6 @@ interface AppComponent {
     fun inject(fragment: TeamsFragment)
     fun inject(fragment: FixturesFragment)
     fun inject(fragment: NewMatchFragment)
+    fun inject(fragment: TablesFragment)
 
 }

@@ -22,10 +22,14 @@ data class Team(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     var name: String,
+    var gamesPlayed: Int = 0,
+    var gamesWon: Int = 0,
+    var gamesLost: Int = 0,
+    var gamesDraw: Int = 0,
     var goalsScored: Int = 0,
     var goalsConceded: Int = 0,
     val tournament: Long,
-    val totalPoints: Int = 0
+    var totalPoints: Int = 0
 ) {
     override fun toString(): String {
         return name

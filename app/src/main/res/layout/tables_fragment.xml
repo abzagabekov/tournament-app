@@ -50,19 +50,11 @@
                         android:background="@drawable/table_cell_bg"
                         android:layout_marginStart="2dp"/>
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/won"
-                        android:textStyle="bold"
-                        android:textAppearance="@android:style/TextAppearance.Material"
-                        android:background="@drawable/table_cell_bg"
-                        android:layout_marginStart="2dp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/lost"
+                        android:text="@string/gd"
                         android:textStyle="bold"
                         android:textAppearance="@android:style/TextAppearance.Material"
                         android:background="@drawable/table_cell_bg"

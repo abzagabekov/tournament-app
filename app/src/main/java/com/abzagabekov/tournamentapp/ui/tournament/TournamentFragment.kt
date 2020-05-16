@@ -47,8 +47,8 @@ class TournamentFragment : Fragment() {
         })
 
         viewModel.navigateToTables.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                findNavController().navigate(TournamentFragmentDirections.actionTournamentFragmentToTablesFragment())
+            it?.let {
+                findNavController().navigate(TournamentFragmentDirections.actionTournamentFragmentToTablesFragment(it))
                 viewModel.showTablesComplete()
             }
         })

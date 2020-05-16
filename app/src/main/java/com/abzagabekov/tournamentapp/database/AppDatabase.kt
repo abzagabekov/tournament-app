@@ -19,6 +19,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract val tournamentDao: TournamentDao
     abstract val teamDao: TeamDao
     abstract val matchDao: MatchDao
+    abstract val resultTableDao: ResultTableDao
 
     companion object {
         const val DB_NAME = "tournament_app_db"
