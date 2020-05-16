@@ -18,64 +18,70 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TableLayout
-                android:id="@+id/table_overview"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:stretchColumns="*"
-                android:background="@android:color/white">
+                android:orientation="horizontal">
 
-                <TableRow
+                <TableLayout
+                    android:id="@+id/table_overview"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/tr_header"
-                    android:background="@drawable/table_row_bg"
-                    android:padding="5dp">
+                    android:stretchColumns="*"
+                    android:background="@android:color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
-                    <TextView
+                    <TableRow
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/team"
-                        android:textStyle="bold"
-                        android:textAppearance="@android:style/TextAppearance.Material"
-                        android:background="@drawable/table_cell_bg"
-                        android:layout_marginStart="2dp"/>
+                        android:layout_height="match_parent"
+                        android:id="@+id/tr_header"
+                        android:background="@drawable/table_row_bg"
+                        android:padding="5dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/games"
-                        android:textStyle="bold"
-                        android:textAppearance="@android:style/TextAppearance.Material"
-                        android:background="@drawable/table_cell_bg"
-                        android:layout_marginStart="2dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/team"
+                            android:textStyle="bold"
+                            android:textAppearance="@android:style/TextAppearance.Material"
+                            android:background="@drawable/table_cell_bg"
+                            android:layout_marginStart="2dp"/>
 
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/gd"
-                        android:textStyle="bold"
-                        android:textAppearance="@android:style/TextAppearance.Material"
-                        android:background="@drawable/table_cell_bg"
-                        android:layout_marginStart="2dp"/>
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/points"
-                        android:textStyle="bold"
-                        android:textAppearance="@android:style/TextAppearance.Material"
-                        android:layout_marginStart="2dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/games"
+                            android:textStyle="bold"
+                            android:textAppearance="@android:style/TextAppearance.Material"
+                            android:background="@drawable/table_cell_bg"
+                            android:layout_marginStart="2dp"/>
 
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gd"
+                            android:textStyle="bold"
+                            android:textAppearance="@android:style/TextAppearance.Material"
+                            android:background="@drawable/table_cell_bg"
+                            android:layout_marginStart="2dp"/>
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/points"
+                            android:textStyle="bold"
+                            android:textAppearance="@android:style/TextAppearance.Material"
+                            android:layout_marginStart="2dp"/>
 
-                </TableRow>
+                    </TableRow>
 
+                </TableLayout>
 
-
-            </TableLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.core.widget.NestedScrollView>
 

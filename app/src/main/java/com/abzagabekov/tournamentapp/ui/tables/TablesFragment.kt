@@ -21,6 +21,7 @@ import com.abzagabekov.tournamentapp.di.InjectingSavedStateViewModelFactory
 import com.abzagabekov.tournamentapp.pojo.ResultTable
 import com.abzagabekov.tournamentapp.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.nav_header_main.*
+import kotlinx.android.synthetic.main.sample_pos_table_row.view.*
 import kotlinx.android.synthetic.main.sample_short_table_row.view.*
 import kotlinx.android.synthetic.main.tables_fragment.*
 import javax.inject.Inject
@@ -63,8 +64,11 @@ class TablesFragment : Fragment() {
         return binding.root
     }
 
-    private fun showResultTable(results: List<ResultTable>, inflater: LayoutInflater, container: ViewGroup?, binding: TablesFragmentBinding) {
-        results.forEach{
+    private fun showResultTable(results: List<ResultTable>,
+                                inflater: LayoutInflater,
+                                container: ViewGroup?,
+                                binding: TablesFragmentBinding) {
+        results.forEachIndexed{ _, it ->
             val newRow =
                 inflater.inflate(R.layout.sample_short_table_row, container, false) as TableRow
             newRow.tv_team_item.text = it.team

@@ -1,8 +1,9 @@
-package com.abzagabekov.tournamentapp
+package com.abzagabekov.tournamentapp.ui
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.pojo.Match
 import com.abzagabekov.tournamentapp.pojo.Team
 import com.abzagabekov.tournamentapp.pojo.Tournament

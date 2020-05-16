@@ -13,7 +13,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/team"
-        android:textStyle="bold"
         android:textAppearance="@android:style/TextAppearance.Material"
         android:background="@drawable/table_cell_bg"
         android:layout_marginStart="2dp"/>
@@ -23,7 +22,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/games"
-        android:textStyle="bold"
         android:textAppearance="@android:style/TextAppearance.Material"
         android:background="@drawable/table_cell_bg"
         android:layout_marginStart="2dp"/>
@@ -34,7 +32,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/gd"
-        android:textStyle="bold"
         android:textAppearance="@android:style/TextAppearance.Material"
         android:background="@drawable/table_cell_bg"
         android:layout_marginStart="2dp"/>
@@ -44,7 +41,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/points"
-        android:textStyle="bold"
         android:textAppearance="@android:style/TextAppearance.Material"
         android:layout_marginStart="2dp"/>
 </TableRow>
