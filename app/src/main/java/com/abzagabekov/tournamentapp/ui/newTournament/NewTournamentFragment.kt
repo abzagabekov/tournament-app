@@ -102,7 +102,7 @@ class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-        viewModel.tournamentType = p0?.getItemAtPosition(position) as String
+        viewModel.onChangeTournamentType(p0?.getItemAtPosition(position) as String)
     }
 
 

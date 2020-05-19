@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.abzagabekov.tournamentapp.App
 
 import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.FixturesFragmentBinding
 import com.abzagabekov.tournamentapp.ui.ViewModelFactory
+import kotlinx.android.synthetic.main.fixtures_fragment.*
 import javax.inject.Inject
 
 /**
@@ -48,9 +50,13 @@ class FixturesFragment : Fragment() {
             }
         })
 
-        binding.rvFixtures.adapter = FixturesAdapter(viewModel, FixturesAdapter.OnClickListener {
+        val adapter = FixturesAdapter(viewModel, FixturesAdapter.OnClickListener {
             viewModel.onPlayMatch(it)
         })
+
+        adapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
+        binding.rvFixtures.adapter = adapter
 
         viewModel.navigateToPlayMatch.observe(viewLifecycleOwner, Observer {
             it?.let {

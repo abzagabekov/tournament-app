@@ -42,6 +42,10 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     val eventShowErrorMessage: LiveData<Boolean>
         get() = _eventShowErrorMessage
 
+    fun onChangeTournamentType(type: String) {
+        tournamentType = type
+    }
+
     fun onCreateNewTournament() {
         _eventCreateNewTournament.value = true
     }
