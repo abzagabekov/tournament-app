@@ -32,6 +32,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
 
     var tournamentType: String? = null
     var isNeedBlankTeam = false
+    var blankTeamId = 0L
     lateinit var resources: Resources
 
     private val _eventCreateNewTournament = MutableLiveData<Boolean>()
@@ -111,6 +112,14 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
         }
     }
 
+    private suspend fun clearBlankTeam() {
+        withContext(Dispatchers.IO) {
+            if (isNeedBlankTeam) {
+                teamDataSource.delete(blankTeamId)
+            }
+        }
+    }
+
     private fun checkUserInputs(name: String?, teamsCount: Int?): Boolean {
         return !(tournamentType == null || name == null || teamsCount == null)
     }
@@ -138,6 +147,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
         }
         val matches = createMatches(fixtures)
         insertMatches(matches)
+        clearBlankTeam()
     }
 
     private suspend fun createTeams(teamsCount: Int, tournamentId: Long): List<Team> {
@@ -152,7 +162,11 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
 
         return withContext(Dispatchers.IO) {
             teamDataSource.insertTeams(teams)
-            teamDataSource.getTeamsOfTournamentSync(tournamentId)
+            val res = teamDataSource.getTeamsOfTournamentSync(tournamentId)
+            if (isNeedBlankTeam && res.last().isBlank) {
+                blankTeamId = res.last().id
+            }
+            return@withContext res
         }
     }
 
@@ -161,11 +175,18 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
         val result = ArrayList<Match>()
         for (tour in fixtures) {
             for (match in tour) {
+
+                val homeTeam = match[0]!!
+                val awayTeam = match[1]!!
+
+                if (homeTeam.isBlank || awayTeam.isBlank)
+                    continue
+
                 result.add(
                     Match(
-                    homeTeam = match[0]!!.id,
-                        awayTeam = match[1]!!.id,
-                        tournament = match[0]!!.tournament
+                    homeTeam = homeTeam.id,
+                        awayTeam = awayTeam.id,
+                        tournament = homeTeam.tournament
                 ))
             }
         }

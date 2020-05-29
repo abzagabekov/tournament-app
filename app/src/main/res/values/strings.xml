@@ -46,6 +46,7 @@
     <string name="gd">GD</string>
     <string name="home_away_matches">Home/away matches</string>
     <string name="to_next_tour">Go to next tour</string>
+    <string name="not_all_matches_played">Not all matches played</string>
 
     <string-array name="tournament_types_array">
         <item>League</item> <!-- TYPE_LEAGUE position 0 -->

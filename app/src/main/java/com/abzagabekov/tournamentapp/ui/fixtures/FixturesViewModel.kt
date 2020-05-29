@@ -4,6 +4,7 @@ import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.abzagabekov.tournamentapp.FixturesAlgorithm
 import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.TYPE_KNOCKOUT
 import com.abzagabekov.tournamentapp.database.MatchDao
@@ -40,6 +41,14 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
     val eventShowNextTourButton: LiveData<Boolean>
         get() = _eventShowNextTourButton
 
+    private val _eventShowErrorMessage = MutableLiveData<Boolean>()
+    val eventShowErrorMessage: LiveData<Boolean>
+        get() = _eventShowErrorMessage
+
+    private val _eventGoToNextTour = MutableLiveData<Boolean>()
+    val eventGoToNextTour: LiveData<Boolean>
+        get() = _eventGoToNextTour
+
     fun initViewModel(id: Long, resources: Resources) {
         currentTournamentId = id
         fixtures = matchDataSource.getMatchesOfTournament(currentTournamentId)
@@ -58,12 +67,86 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
 
     }
 
+    fun onClickGoToNextTour() {
+
+        val playedMatches = fixtures.value?.filter { it.homeTeamGoals != null }
+
+        if (playedMatches?.size != fixtures.value?.size) {
+            _eventShowErrorMessage.value = true
+            return
+        } else {
+            _eventGoToNextTour.value = true
+            coroutineScope.launch {
+                createNewTourForKnockout()
+                _eventGoToNextTour.value = false
+            }
+        }
+    }
+
+    private suspend fun createNewTourForKnockout() {
+
+        val teamIds = ArrayList<Long>()
+        fixtures.value?.forEach {
+            teamIds.add( if (it.homeTeamGoals!! > it.awayTeamGoals!!) it.homeTeam else it.awayTeam)
+        }
+
+        teams.value?.filter { it.id in teamIds }?.let {
+            val newFixtures = FixturesAlgorithm(it).generateTourForKickOff()
+            clearFixtures()
+            insertMatches(createNewMatches(newFixtures))
+        }
+
+    }
+
+    private fun createNewMatches(newFixtures: Set<List<MutableList<Team?>>>): List<Match> {
+
+        val result = ArrayList<Match>()
+        for (tour in newFixtures) {
+            for (match in tour) {
+
+                val homeTeam = match[0]!!
+                val awayTeam = match[1]!!
+
+                result.add(
+                    Match(
+                        homeTeam = homeTeam.id,
+                        awayTeam = awayTeam.id,
+                        tournament = homeTeam.tournament
+                    ))
+            }
+        }
+        return result
+    }
+
+    private suspend fun clearFixtures() {
+        withContext(Dispatchers.IO) {
+            fixtures.value?.forEach {
+                matchDataSource.delete(it.id)
+            }
+        }
+    }
+
+    private suspend fun insertMatches(match: List<Match>) {
+        withContext(Dispatchers.IO) {
+            matchDataSource.insertMatches(match)
+        }
+    }
+
+    fun doneShowErrorMessage() {
+        _eventShowErrorMessage.value = false
+    }
+
     fun onPlayMatch(match: Match) {
         _navigateToPlayMatch.value = match
     }
 
     fun doneNavigateToPlayMatch() {
         _navigateToPlayMatch.value = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 
 }
