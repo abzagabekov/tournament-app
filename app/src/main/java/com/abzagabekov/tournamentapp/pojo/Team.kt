@@ -29,6 +29,7 @@ data class Team(
     var goalsScored: Int = 0,
     var goalsConceded: Int = 0,
     val tournament: Long,
+    var isBlank: Boolean = false,
     var totalPoints: Int = 0
 ) {
     override fun toString(): String {

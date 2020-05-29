@@ -1,6 +1,7 @@
 package com.abzagabekov.tournamentapp
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by abzagabekov on 13.05.2020.
@@ -31,6 +32,16 @@ class FixturesAlgorithm<T>(private val _teams: List<T>) {
 
     }
 
+    fun generateTourForKickOff(teams: List<T> = _teams): Set<List<MutableList<T?>>> {
+        val mutTeams = teams.toMutableList().apply { shuffle() }
+        val result = List(teams.size / 2){ MutableList<T?>(2){null}}
+        for (i in result.indices) {
+            result[i][0] = mutTeams.removeAt(0)
+            result[i][1] = mutTeams.removeAt(0)
+        }
+        return setOf(result)
+    }
+
     private fun showFixtures(round: List<List<T?>>) {
         for (element in round) {
             for (j in 0..1) {
@@ -42,7 +53,7 @@ class FixturesAlgorithm<T>(private val _teams: List<T>) {
 
     private fun mirrorRound(round: List<List<T?>>): List<MutableList<T?>> {
         var res = List(round.size){ MutableList<T?>(2){null}}
-        for (i in 0 until round.size) {
+        for (i in round.indices) {
             res[i][0] = round[i][1]
             res[i][1] = round[i][0]
         }

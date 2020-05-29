@@ -32,6 +32,7 @@
     <string name="teams">Teams</string>
     <string name="add_or_view_teams">Add or view teams</string>
     <string name="error_check_inputs">Error! Check inputs!</string>
+    <string name="error_invalid_teams_count">Error! Invalid teams count!</string>
     <string name="team_name">Team name</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
@@ -44,6 +45,7 @@
     <string name="pos">Pos</string>
     <string name="gd">GD</string>
     <string name="home_away_matches">Home/away matches</string>
+    <string name="to_next_tour">Go to next tour</string>
 
     <string-array name="tournament_types_array">
         <item>League</item> <!-- TYPE_LEAGUE position 0 -->

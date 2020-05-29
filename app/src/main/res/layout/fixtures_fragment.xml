@@ -9,7 +9,7 @@
             type="com.abzagabekov.tournamentapp.ui.fixtures.FixturesViewModel" />
     </data>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.fixtures.FixturesFragment"
@@ -19,10 +19,24 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_fixtures"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_view_fixture"
-            listDataFixtures="@{viewModel.fixtures}"/>
+            listDataFixtures="@{viewModel.fixtures}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_next_tour"/>
 
-    </FrameLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next_tour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/to_next_tour"
+            android:backgroundTint="@color/green"
+            android:layout_marginTop="5dp"
+            android:visibility="gone"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

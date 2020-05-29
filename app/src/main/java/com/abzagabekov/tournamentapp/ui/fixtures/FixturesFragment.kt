@@ -11,10 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.abzagabekov.tournamentapp.App
 
-import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.FixturesFragmentBinding
 import com.abzagabekov.tournamentapp.ui.ViewModelFactory
-import kotlinx.android.synthetic.main.fixtures_fragment.*
 import javax.inject.Inject
 
 /**
@@ -39,7 +37,7 @@ class FixturesFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(FixturesViewModel::class.java)
 
         val arguments = FixturesFragmentArgs.fromBundle(requireArguments())
-        viewModel.initViewModel(arguments.tournamentId)
+        viewModel.initViewModel(arguments.tournamentId, resources)
 
 
         binding.viewModel = viewModel
@@ -60,9 +58,13 @@ class FixturesFragment : Fragment() {
 
         viewModel.navigateToPlayMatch.observe(viewLifecycleOwner, Observer {
             it?.let {
-                findNavController().navigate(FixturesFragmentDirections.actionFixturesFragmentToNewMatchFragment(it, viewModel.currentTournament))
+                findNavController().navigate(FixturesFragmentDirections.actionFixturesFragmentToNewMatchFragment(it, viewModel.currentTournamentId))
                 viewModel.doneNavigateToPlayMatch()
             }
+        })
+
+        viewModel.eventShowNextTourButton.observe(viewLifecycleOwner, Observer {
+            binding.btnNextTour.visibility = if (it) View.VISIBLE else View.GONE
         })
 
         return binding.root

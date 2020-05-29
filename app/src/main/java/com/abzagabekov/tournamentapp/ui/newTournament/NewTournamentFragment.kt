@@ -45,6 +45,8 @@ class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(NewTournamentViewModel::class.java)
 
+        viewModel.initViewModel(resources)
+
         binding.viewModel = viewModel
 
         initSpinner(binding.spTourType)
@@ -58,7 +60,7 @@ class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     viewModel.createNewTournament(tournamentName, teamsCount)
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    viewModel.showErrorMessage()
+                    viewModel.showErrorMessage(InputErrorCodes.EMPTY_FIELDS)
                 }
 
             } else {
@@ -74,10 +76,17 @@ class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
         })
 
         viewModel.eventShowErrorMessage.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                //Toast.makeText(requireContext(), "Error! Check inputs", Toast.LENGTH_SHORT).show()
-                binding.tvError.visibility = View.VISIBLE
-                viewModel.doneShowErrorMessage()
+            when (it) {
+                InputErrorCodes.EMPTY_FIELDS -> {
+                    binding.tvError.text = resources.getString(R.string.error_check_inputs)
+                    binding.tvError.visibility = View.VISIBLE
+                    viewModel.doneShowErrorMessage()
+                }
+                InputErrorCodes.INVALID_TEAMS_COUNT -> {
+                    binding.tvError.text = resources.getString(R.string.error_invalid_teams_count)
+                    binding.tvError.visibility = View.VISIBLE
+                    viewModel.doneShowErrorMessage()
+                }
             }
         })
 

@@ -31,7 +31,8 @@ fun bindRVFixtures(recyclerView: RecyclerView, data: List<Match>?) {
 @BindingAdapter("listDataTeams")
 fun bindRVTeams(recyclerView: RecyclerView, data: List<Team>?) {
     val adapter = recyclerView.adapter as TeamsAdapter
-    adapter.submitList(data)
+    val newData = data?.filter { !it.isBlank }
+    adapter.submitList(newData)
 }
 
 @BindingAdapter(value = ["matchBindHome", "teams"])

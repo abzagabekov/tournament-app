@@ -1,9 +1,11 @@
 package com.abzagabekov.tournamentapp.ui.newTournament
 
+import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.abzagabekov.tournamentapp.FixturesAlgorithm
+import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.TYPE_LEAGUE
 import com.abzagabekov.tournamentapp.database.MatchDao
 import com.abzagabekov.tournamentapp.database.TeamDao
@@ -29,6 +31,8 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     var tournamentType: String? = null
+    var isNeedBlankTeam = false
+    lateinit var resources: Resources
 
     private val _eventCreateNewTournament = MutableLiveData<Boolean>()
     val eventCreateNewTournament: LiveData<Boolean>
@@ -38,9 +42,13 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     val navigateToTournamentMenu: LiveData<Tournament>
         get() = _navigateToTournamentMenu
 
-    private val _eventShowErrorMessage = MutableLiveData<Boolean>()
-    val eventShowErrorMessage: LiveData<Boolean>
+    private val _eventShowErrorMessage = MutableLiveData<InputErrorCodes>()
+    val eventShowErrorMessage: LiveData<InputErrorCodes>
         get() = _eventShowErrorMessage
+
+    fun initViewModel(resources: Resources) {
+        this.resources = resources
+    }
 
     fun onChangeTournamentType(type: String) {
         tournamentType = type
@@ -53,13 +61,15 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     fun createNewTournament(name: String?, teamsCount: Int?) {
 
         if (!checkUserInputs(name, teamsCount)) {
-            showErrorMessage()
+            showErrorMessage(InputErrorCodes.EMPTY_FIELDS)
             return
         }
 
+        checkTeamsCount(teamsCount!!)
+
         val tournament = Tournament(
             name = name!!,
-            teamsCount = teamsCount!!,
+            teamsCount = if (isNeedBlankTeam) teamsCount + 1 else teamsCount,
             type = tournamentType!!
         )
 
@@ -68,15 +78,15 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
 
             val result = withContext(Dispatchers.IO) { tournamentDataSource.getLastTournament() }
 
-            generateSchedule(teamsCount, result!!.id)
+            generateSchedule(if (isNeedBlankTeam) teamsCount + 1 else teamsCount, result!!.id)
 
             _navigateToTournamentMenu.value = result
             _eventCreateNewTournament.value = false
         }
     }
 
-    fun showErrorMessage() {
-        _eventShowErrorMessage.value = true
+    fun showErrorMessage(errorCode: InputErrorCodes) {
+        _eventShowErrorMessage.value = errorCode
     }
 
 
@@ -85,7 +95,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     }
 
     fun doneShowErrorMessage() {
-        _eventShowErrorMessage.value= false
+        _eventShowErrorMessage.value= InputErrorCodes.CLEAR
         _eventCreateNewTournament.value = false
     }
 
@@ -105,9 +115,27 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
         return !(tournamentType == null || name == null || teamsCount == null)
     }
 
+    private fun checkTeamsCount(teamsCount: Int) {
+        if (tournamentType == resources.getStringArray(R.array.tournament_types_array)[TYPE_LEAGUE]) {
+            isNeedBlankTeam = teamsCount % 2 != 0
+        } else {
+            var num = teamsCount
+            while (num != 1 && num % 2 == 0) {
+                num /= 2
+            }
+            if (num != 1) {
+                showErrorMessage(InputErrorCodes.INVALID_TEAMS_COUNT)
+            }
+        }
+    }
+
     private suspend fun generateSchedule(teamsCount: Int, tournamentId: Long) {
         val teams = createTeams(teamsCount, tournamentId)
-        val fixtures = FixturesAlgorithm(teams).generateTours()
+        val fixtures = if (tournamentType == resources.getStringArray(R.array.tournament_types_array)[TYPE_LEAGUE]) {
+            FixturesAlgorithm(teams).generateTours()
+        } else {
+            FixturesAlgorithm(teams).generateTourForKickOff()
+        }
         val matches = createMatches(fixtures)
         insertMatches(matches)
     }
@@ -118,13 +146,15 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
             teams.add(Team(name = "Team $i", tournament = tournamentId))
         }
 
+        if (isNeedBlankTeam) {
+            teams.last().isBlank = true
+        }
+
         return withContext(Dispatchers.IO) {
             teamDataSource.insertTeams(teams)
             teamDataSource.getTeamsOfTournamentSync(tournamentId)
         }
     }
-
-
 
     private fun createMatches(fixtures: Set<List<MutableList<Team?>>>): List<Match> {
 
@@ -148,3 +178,5 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
         viewModelJob.cancel()
     }
 }
+
+enum class InputErrorCodes {EMPTY_FIELDS, INVALID_TEAMS_COUNT, CLEAR}
