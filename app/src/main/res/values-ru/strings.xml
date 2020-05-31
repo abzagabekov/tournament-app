@@ -16,7 +16,7 @@
     <string name="tournament_type">Тип турнира</string>
     <string name="generate_schedules">Генерировать расписание</string>
     <string name="teams">Команды</string>
-    <string name="add_or_view_teams">Добавить или просмотреть команды</string>
+    <string name="add_or_view_teams">Изменить или просмотреть команды</string>
     <string name="error_check_inputs">Ошибка! Проверьте введеные значения!</string>
     <string name="error_invalid_teams_count">Ошибка! Недопустимое количество команд!</string>
     <string name="team_name">Название команды</string>

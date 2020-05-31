@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.abzagabekov.tournamentapp.database.TournamentDao
-import com.abzagabekov.tournamentapp.getTournaments
 import com.abzagabekov.tournamentapp.pojo.Tournament
 import kotlinx.coroutines.*
 import javax.inject.Inject

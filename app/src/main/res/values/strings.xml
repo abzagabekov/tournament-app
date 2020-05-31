@@ -17,7 +17,7 @@
     <string name="table">Table</string>
     <string name="fixtures">Fixtures</string>
     <string name="check_current_tables">Check current tables</string>
-    <string name="view_upcoming_fixtures">View upcoming fixtures</string>
+    <string name="view_upcoming_fixtures">View upcoming matches</string>
     <string name="add_new_match">Add new match</string>
     <string name="team_1">Team 1</string>
     <string name="team_2">Team 2</string>
@@ -29,7 +29,7 @@
     <string name="tournament_type">Tournament type</string>
     <string name="generate_schedules">Generate schedules</string>
     <string name="teams">Teams</string>
-    <string name="add_or_view_teams">Add or view teams</string>
+    <string name="add_or_view_teams">Edit or view teams</string>
     <string name="error_check_inputs">Error! Check inputs!</string>
     <string name="error_invalid_teams_count">Error! Invalid teams count!</string>
     <string name="team_name">Team name</string>
