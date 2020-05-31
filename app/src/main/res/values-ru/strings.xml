@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Настройки</string>
+    <string name="table">Таблица</string>
+    <string name="fixtures">Матчи</string>
+    <string name="check_current_tables">Просмотр текущей таблицы</string>
+    <string name="view_upcoming_fixtures">Просмотр предстоящих матчей</string>
+    <string name="add_new_match">Добавить новый матч</string>
+    <string name="team_1">Команда 1</string>
+    <string name="team_2">Команда 2</string>
+    <string name="score">Счет</string>
+    <string name="submit">Подтвердить</string>
+    <string name="tournament_name">Название турнира</string>
+    <string name="enter_name">Введите название</string>
+    <string name="teams_count">Количество команд</string>
+    <string name="tournament_type">Тип турнира</string>
+    <string name="generate_schedules">Генерировать расписание</string>
+    <string name="teams">Команды</string>
+    <string name="add_or_view_teams">Добавить или просмотреть команды</string>
+    <string name="error_check_inputs">Ошибка! Проверьте введеные значения!</string>
+    <string name="error_invalid_teams_count">Ошибка! Недопустимое количество команд!</string>
+    <string name="team_name">Название команды</string>
+    <string name="add">Добавить</string>
+    <string name="cancel">Отмена</string>
+    <string name="play_match">Играть матч</string>
+    <string name="team">Команда</string>
+    <string name="points">Очки</string>
+    <string name="games">Игры</string>
+    <string name="won">Выиграно</string>
+    <string name="lost">Поражений</string>
+    <string name="pos">Поз</string>
+    <string name="gd">РМ</string>
+    <string name="home_away_matches">Игры дома/на выезде</string>
+    <string name="to_next_tour">К следующему туру</string>
+    <string name="not_all_matches_played">Не все матчи сыграны</string>
+    <string name="dark_mode">Темный режим</string>
+    <string name="menu_home">Главная</string>
+    <string name="language">Язык</string>
+
+    <string-array name="tournament_types_array">
+        <item>Лига</item> <!-- TYPE_LEAGUE position 0 -->
+        <item>Турнир</item> <!-- TYPE_KNOCKOUT position 1 -->
+    </string-array>
+
+</resources>

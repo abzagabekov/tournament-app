@@ -92,7 +92,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_tour_type" />
 
         <CheckBox
-            android:id="@+id/cb_generate_fix"
+            android:id="@+id/cb_two_leg"
             style="@style/TextView.Primary.Header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cb_generate_fix"
+            app:layout_constraintTop_toBottomOf="@id/cb_two_leg"
             android:onClick="@{() -> viewModel.onCreateNewTournament()}"/>
 
         <ProgressBar

@@ -24,6 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_view_tournament"
+            android:scrollbars="vertical"
             listDataTournament="@{viewModel.tournaments}"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

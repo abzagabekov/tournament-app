@@ -57,7 +57,7 @@ class NewTournamentFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 try {
                     val tournamentName = binding.etTourName.text.toString().trim()
                     val teamsCount = binding.etTeamsCount.text.toString().toInt()
-                    viewModel.createNewTournament(tournamentName, teamsCount)
+                    viewModel.createNewTournament(tournamentName, teamsCount, binding.cbTwoLeg.isChecked)
                 } catch (e: Exception) {
                     e.printStackTrace()
                     viewModel.showErrorMessage(InputErrorCodes.EMPTY_FIELDS)

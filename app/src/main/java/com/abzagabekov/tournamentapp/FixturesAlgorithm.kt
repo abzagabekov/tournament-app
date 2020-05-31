@@ -1,7 +1,6 @@
 package com.abzagabekov.tournamentapp
 
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Created by abzagabekov on 13.05.2020.
@@ -10,7 +9,7 @@ import kotlin.collections.ArrayList
 
 class FixturesAlgorithm<T>(private val _teams: List<T>) {
 
-    fun generateTours(teams: List<T> = _teams): Set<List<MutableList<T?>>> {
+    fun generateTours(teams: List<T> = _teams, isTwoLeg: Boolean): Set<List<MutableList<T?>>> {
 
         val tours = MutableList(teams.size - 1){ List(teams.size / 2){ MutableList<T?>(2){null}}}
         val secondLegTours = MutableList(teams.size - 1){ List(teams.size / 2){ MutableList<T?>(2){null}}}
@@ -28,18 +27,19 @@ class FixturesAlgorithm<T>(private val _teams: List<T>) {
         tours.shuffle()
         secondLegTours.shuffle()
 
-        return tours.union(secondLegTours)
+        return if (isTwoLeg) tours.union(secondLegTours) else tours.toSet()
 
     }
 
-    fun generateTourForKickOff(teams: List<T> = _teams): Set<List<MutableList<T?>>> {
+    fun generateTourForKickOff(teams: List<T> = _teams, isTwoLeg: Boolean): Set<List<MutableList<T?>>> {
         val mutTeams = teams.toMutableList().apply { shuffle() }
-        val result = List(teams.size / 2){ MutableList<T?>(2){null}}
-        for (i in result.indices) {
-            result[i][0] = mutTeams.removeAt(0)
-            result[i][1] = mutTeams.removeAt(0)
+        val tour = List(teams.size / 2){ MutableList<T?>(2){null}}
+        for (i in tour.indices) {
+            tour[i][0] = mutTeams.removeAt(0)
+            tour[i][1] = mutTeams.removeAt(0)
         }
-        return setOf(result)
+        val secondLeg = mirrorRound(tour)
+        return if (isTwoLeg) setOf(tour + secondLeg) else setOf(tour)
     }
 
     private fun showFixtures(round: List<List<T?>>) {

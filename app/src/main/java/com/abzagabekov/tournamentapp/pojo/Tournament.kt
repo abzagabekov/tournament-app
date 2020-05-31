@@ -17,5 +17,6 @@ data class Tournament(
     val id: Long = 0L,
     val name: String,
     val type: String,
-    val teamsCount: Int
+    val teamsCount: Int,
+    val isTwoLeg: Boolean = false
 ) : Parcelable

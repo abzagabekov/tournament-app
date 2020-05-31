@@ -59,19 +59,23 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
         _eventCreateNewTournament.value = true
     }
 
-    fun createNewTournament(name: String?, teamsCount: Int?) {
+    fun createNewTournament(name: String?, teamsCount: Int?, isTwoLeg: Boolean) {
 
         if (!checkUserInputs(name, teamsCount)) {
             showErrorMessage(InputErrorCodes.EMPTY_FIELDS)
             return
         }
 
-        checkTeamsCount(teamsCount!!)
+        if (!checkTeamsCount(teamsCount!!)) {
+            showErrorMessage(InputErrorCodes.INVALID_TEAMS_COUNT)
+            return
+        }
 
         val tournament = Tournament(
             name = name!!,
             teamsCount = if (isNeedBlankTeam) teamsCount + 1 else teamsCount,
-            type = tournamentType!!
+            type = tournamentType!!,
+            isTwoLeg = isTwoLeg
         )
 
         coroutineScope.launch {
@@ -79,7 +83,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
 
             val result = withContext(Dispatchers.IO) { tournamentDataSource.getLastTournament() }
 
-            generateSchedule(if (isNeedBlankTeam) teamsCount + 1 else teamsCount, result!!.id)
+            generateSchedule(if (isNeedBlankTeam) teamsCount + 1 else teamsCount, result!!.id, isTwoLeg)
 
             _navigateToTournamentMenu.value = result
             _eventCreateNewTournament.value = false
@@ -124,7 +128,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
         return !(tournamentType == null || name == null || teamsCount == null)
     }
 
-    private fun checkTeamsCount(teamsCount: Int) {
+    private fun checkTeamsCount(teamsCount: Int): Boolean {
         if (tournamentType == resources.getStringArray(R.array.tournament_types_array)[TYPE_LEAGUE]) {
             isNeedBlankTeam = teamsCount % 2 != 0
         } else {
@@ -133,17 +137,18 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
                 num /= 2
             }
             if (num != 1) {
-                showErrorMessage(InputErrorCodes.INVALID_TEAMS_COUNT)
+                return false
             }
         }
+        return true
     }
 
-    private suspend fun generateSchedule(teamsCount: Int, tournamentId: Long) {
+    private suspend fun generateSchedule(teamsCount: Int, tournamentId: Long, isTwoLeg: Boolean) {
         val teams = createTeams(teamsCount, tournamentId)
         val fixtures = if (tournamentType == resources.getStringArray(R.array.tournament_types_array)[TYPE_LEAGUE]) {
-            FixturesAlgorithm(teams).generateTours()
+            FixturesAlgorithm(teams).generateTours(isTwoLeg = isTwoLeg)
         } else {
-            FixturesAlgorithm(teams).generateTourForKickOff()
+            FixturesAlgorithm(teams).generateTourForKickOff(isTwoLeg = isTwoLeg)
         }
         val matches = createMatches(fixtures)
         insertMatches(matches)

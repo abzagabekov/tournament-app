@@ -80,6 +80,10 @@ class FixturesFragment : Fragment() {
             binding.btnNextTour.isEnabled = !it
         })
 
+        viewModel.fixtures.observe(viewLifecycleOwner, Observer {
+            binding.btnNextTour.isEnabled = it.size != 1
+        })
+
         return binding.root
     }
 

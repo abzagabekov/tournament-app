@@ -113,5 +113,7 @@ dependencies {
     // debug-database
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 
+    implementation "androidx.preference:preference:1.1.1"
+
 
 }

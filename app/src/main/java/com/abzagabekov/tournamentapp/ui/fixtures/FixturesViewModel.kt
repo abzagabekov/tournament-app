@@ -87,15 +87,14 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
 
         val teamIds = ArrayList<Long>()
         fixtures.value?.forEach {
-            teamIds.add( if (it.homeTeamGoals!! > it.awayTeamGoals!!) it.homeTeam else it.awayTeam)
+            teamIds.add( if (it.homeTeamGoals!! <= it.awayTeamGoals!!) it.awayTeam else it.homeTeam)
         }
 
         teams.value?.filter { it.id in teamIds }?.let {
-            val newFixtures = FixturesAlgorithm(it).generateTourForKickOff()
+            val newFixtures = FixturesAlgorithm(it).generateTourForKickOff(isTwoLeg = currentTournament!!.isTwoLeg)
             clearFixtures()
             insertMatches(createNewMatches(newFixtures))
         }
-
     }
 
     private fun createNewMatches(newFixtures: Set<List<MutableList<Team?>>>): List<Match> {

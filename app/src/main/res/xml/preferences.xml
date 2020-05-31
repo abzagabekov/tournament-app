@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreferenceCompat
+        android:title="@string/dark_mode"
+        android:key="dark_mode"
+        android:icon="@drawable/ic_brightness_2_black_24dp"/>
+
+    <DropDownPreference
+        android:title="@string/language"
+        android:key="language"
+        android:icon="@drawable/ic_language_black_24dp"
+        android:entries="@array/languages_entries_array"
+        app:entryValues="@array/languages_entry_values_array"/>
+
+</PreferenceScreen>

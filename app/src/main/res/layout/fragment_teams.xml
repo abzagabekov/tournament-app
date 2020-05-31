@@ -24,6 +24,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_view_team"
+            android:scrollbars="vertical"
             listDataTeams="@{viewModel.teams}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
