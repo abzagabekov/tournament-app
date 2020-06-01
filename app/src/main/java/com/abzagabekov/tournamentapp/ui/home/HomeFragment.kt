@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.selection.StorageStrategy
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.abzagabekov.tournamentapp.App
 import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.TournamentKeyProvider
@@ -46,6 +47,7 @@ class HomeFragment : Fragment() {
         })
 
         binding.rvTournaments.adapter = adapter
+        //binding.rvTournaments.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
 
         homeViewModel.navigateToSelectedTournament.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -90,14 +92,10 @@ class HomeFragment : Fragment() {
             adapter.tracker = tracker
         })
 
-        setHasOptionsMenu(true)
         return binding.root
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.main, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
+
 
     private fun setSelectedTitle(selected: Int) {
         actionMode?.title = "Selected: $selected"

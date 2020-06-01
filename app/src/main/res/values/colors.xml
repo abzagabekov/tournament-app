@@ -15,4 +15,5 @@
     <color name="neon_blue">#31A8E8</color>
     <color name="red_light">#FA542F</color>
     <color name="green_light">#99F2BB</color>
+    <color name="color_on_surface">#CF6679</color>
 </resources>

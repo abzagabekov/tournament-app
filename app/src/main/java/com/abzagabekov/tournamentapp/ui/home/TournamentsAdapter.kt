@@ -1,13 +1,19 @@
 package com.abzagabekov.tournamentapp.ui.home
 
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.service.voice.AlwaysOnHotwordDetector
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.databinding.ItemViewTournamentBinding
 import com.abzagabekov.tournamentapp.pojo.Tournament
 import java.text.ParsePosition
@@ -40,6 +46,7 @@ class TournamentsAdapter(private val onClickListener: OnClickListener) : ListAda
         return TournamentViewHolder(binding)
     }
 
+    @SuppressLint("ResourceType")
     override fun onBindViewHolder(holder: TournamentsAdapter.TournamentViewHolder, position: Int, payloads: List<Any>) {
         val item = getItem(position)
         holder.itemView.setOnClickListener {
@@ -50,6 +57,14 @@ class TournamentsAdapter(private val onClickListener: OnClickListener) : ListAda
 
         if (SelectionTracker.SELECTION_CHANGED_MARKER !in payloads) {
             holder.bind(item)
+        }
+
+        if (tracker.isSelected(getItem(position))) {
+            (holder.itemView as CardView).setCardBackgroundColor(Color.parseColor(
+                holder.itemView.resources.getString(R.color.color_on_surface)))
+        } else {
+            (holder.itemView as CardView).setCardBackgroundColor(Color.parseColor(
+                holder.itemView.resources.getString(R.color.gray_mercury)))
         }
     }
 
