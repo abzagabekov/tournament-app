@@ -19,9 +19,13 @@ import com.abzagabekov.tournamentapp.ui.home.TournamentsAdapter
 const val TYPE_LEAGUE = 0
 const val TYPE_KNOCKOUT = 1
 
-class TournamentKeyProvider(private val items: List<Tournament>) : ItemKeyProvider<Tournament>(ItemKeyProvider.SCOPE_CACHED) {
+class TournamentKeyProvider(private val items: List<Tournament>,
+                            private val recyclerView: RecyclerView) : ItemKeyProvider<Tournament>(ItemKeyProvider.SCOPE_MAPPED) {
     override fun getKey(position: Int) = items.getOrNull(position)
-    override fun getPosition(key: Tournament) = items.indexOf(key)
+    override fun getPosition(key: Tournament): Int {
+        val viewHolder = recyclerView.findViewHolderForItemId(key.id)
+        return viewHolder?.layoutPosition ?: RecyclerView.NO_POSITION
+    }
 }
 
 class TournamentLookup(private val recyclerView: RecyclerView) : ItemDetailsLookup<Tournament>() {
@@ -30,7 +34,6 @@ class TournamentLookup(private val recyclerView: RecyclerView) : ItemDetailsLook
             (recyclerView.getChildViewHolder(it) as? TournamentsAdapter.ViewHolderWithDetails<Tournament>)?.getItemDetail()
         }
     }
-
 }
 
 interface AssistedSavedStateViewModelFactory<T : ViewModel> {

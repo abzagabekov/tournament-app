@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.selection.StorageStrategy
@@ -25,6 +26,7 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
 
     private var actionMode: ActionMode? = null
+    private var tournaments: List<Tournament>? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -68,12 +70,14 @@ class HomeFragment : Fragment() {
                 .Builder<Tournament>(
                     "selection-1",
                     binding.rvTournaments,
-                    TournamentKeyProvider(it),
+                    TournamentKeyProvider(it, binding.rvTournaments),
                     TournamentLookup(binding.rvTournaments),
                     StorageStrategy.createParcelableStorage(Tournament::class.java)
+                ).withSelectionPredicate(
+                    SelectionPredicates.createSelectAnything()
                 ).build()
 
-            tracker.addObserver(object : SelectionTracker.SelectionObserver<Any>() {
+            tracker.addObserver(object : SelectionTracker.SelectionObserver<Tournament>() {
                 override fun onSelectionChanged() {
                     super.onSelectionChanged()
                     if (tracker.hasSelection() && actionMode == null) {
@@ -90,6 +94,7 @@ class HomeFragment : Fragment() {
             })
 
             adapter.tracker = tracker
+            tournaments = it
         })
 
         return binding.root
@@ -101,9 +106,11 @@ class HomeFragment : Fragment() {
         actionMode?.title = "Selected: $selected"
     }
 
-    class ActionModeController(
-        private val tracker: SelectionTracker<*>
+    inner class ActionModeController(
+        private val tracker: SelectionTracker<Tournament>
     ) : ActionMode.Callback {
+
+        private var isAllSelected = false
 
         override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
             return when(item?.itemId) {
@@ -112,8 +119,7 @@ class HomeFragment : Fragment() {
                     true
                 }
                 R.id.action_select_all -> {
-
-                    true
+                    selectAllItems()
                 }
                 else -> false
             }
@@ -130,6 +136,15 @@ class HomeFragment : Fragment() {
 
         override fun onDestroyActionMode(mode: ActionMode?) {
             tracker.clearSelection()
+        }
+
+        private fun selectAllItems(): Boolean {
+            tournaments?.forEach {
+                if (!isAllSelected) tracker.select(it) else
+                    tracker.deselect(it)
+            }
+            isAllSelected = !isAllSelected
+            return true
         }
 
     }
