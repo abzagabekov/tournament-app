@@ -48,6 +48,7 @@
     <string name="not_all_matches_played">Not all matches played</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="language">Language</string>
+    <string name="selected">Selected</string>
 
     <string-array name="tournament_types_array">
         <item>League</item> <!-- TYPE_LEAGUE position 0 -->

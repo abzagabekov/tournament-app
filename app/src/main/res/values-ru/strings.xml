@@ -41,5 +41,6 @@
         <item>Лига</item> <!-- TYPE_LEAGUE position 0 -->
         <item>Турнир</item> <!-- TYPE_KNOCKOUT position 1 -->
     </string-array>
+    <string name="selected">Выбрано</string>
 
 </resources>

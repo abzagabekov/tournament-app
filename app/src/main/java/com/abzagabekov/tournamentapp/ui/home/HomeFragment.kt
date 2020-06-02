@@ -3,6 +3,7 @@ package com.abzagabekov.tournamentapp.ui.home
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -27,6 +28,13 @@ class HomeFragment : Fragment() {
 
     private var actionMode: ActionMode? = null
     private var tournaments: List<Tournament>? = null
+    private val tournamentsToDelete = MutableLiveData<List<Tournament>>()
+    private lateinit var tracker: SelectionTracker<Tournament>
+
+    companion object {
+        private const val ACTION_MODE_BUNDLE_KEY = "action_mode_enabled"
+        private const val SELECTION_ID = "selection-1"
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -65,14 +73,22 @@ class HomeFragment : Fragment() {
             }
         })
 
-        val tracker = SelectionTracker
+        tracker = SelectionTracker
             .Builder<Tournament>(
-                "selection-1",
+                SELECTION_ID,
                 binding.rvTournaments,
                 TournamentKeyProvider(adapter),
                 TournamentLookup(binding.rvTournaments),
                 StorageStrategy.createParcelableStorage(Tournament::class.java)
             ).build()
+
+        if (savedInstanceState != null) {
+            tracker.onRestoreInstanceState(savedInstanceState)
+            if (savedInstanceState.getBoolean(ACTION_MODE_BUNDLE_KEY)) {
+                actionMode = activity?.startActionMode(ActionModeController(tracker))
+                setSelectedTitle(tracker.selection.size())
+            }
+        }
 
         tracker.addObserver(object : SelectionTracker.SelectionObserver<Tournament>() {
             override fun onSelectionChanged() {
@@ -80,7 +96,6 @@ class HomeFragment : Fragment() {
                 if (tracker.hasSelection() && actionMode == null) {
                     actionMode = requireActivity().startActionMode(ActionModeController(tracker))
                     setSelectedTitle(tracker.selection.size())
-
                 } else if (!tracker.hasSelection()) {
                     actionMode?.finish()
                 } else {
@@ -95,14 +110,25 @@ class HomeFragment : Fragment() {
             tournaments = it
         })
 
+        tournamentsToDelete.observe(viewLifecycleOwner, Observer {
+            if (it.isNotEmpty()) {
+                homeViewModel.onDeleteTournaments(it)
+            }
+        })
 
         return binding.root
     }
 
-
-
     private fun setSelectedTitle(selected: Int) {
-        actionMode?.title = "Selected: $selected"
+        actionMode?.title = "${resources.getString(R.string.selected)}: $selected"
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        tracker.onSaveInstanceState(outState)
+        if (actionMode != null) {
+            outState.putBoolean(ACTION_MODE_BUNDLE_KEY, true)
+        }
     }
 
     inner class ActionModeController(
@@ -114,7 +140,8 @@ class HomeFragment : Fragment() {
         override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
             return when(item?.itemId) {
                 R.id.action_delete -> {
-
+                    tournamentsToDelete.value = tracker.selection.toList()
+                    actionMode?.finish()
                     true
                 }
                 R.id.action_select_all -> {

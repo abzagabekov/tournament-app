@@ -10,6 +10,9 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(private val tournamentDataSource: TournamentDao) : ViewModel() {
 
+    private val viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
     val tournaments = tournamentDataSource.getAllTournaments()
 
     private val _navigateToSelectedTournament = MutableLiveData<Tournament>()
@@ -35,6 +38,25 @@ class HomeViewModel @Inject constructor(private val tournamentDataSource: Tourna
 
     fun doneNavigateToNewTournament() {
         _navigateToNewTournament.value = null
+    }
+
+    fun onDeleteTournaments(tournaments: List<Tournament>) {
+        coroutineScope.launch {
+            tournaments.forEach{
+                deleteTournament(it.id)
+            }
+        }
+    }
+
+    private suspend fun deleteTournament(id: Long) {
+        withContext(Dispatchers.IO) {
+            tournamentDataSource.delete(id)
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 
 }
