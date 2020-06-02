@@ -65,37 +65,36 @@ class HomeFragment : Fragment() {
             }
         })
 
-        homeViewModel.tournaments.observe(viewLifecycleOwner, Observer {
-            val tracker = SelectionTracker
-                .Builder<Tournament>(
-                    "selection-1",
-                    binding.rvTournaments,
-                    TournamentKeyProvider(it, binding.rvTournaments),
-                    TournamentLookup(binding.rvTournaments),
-                    StorageStrategy.createParcelableStorage(Tournament::class.java)
-                ).withSelectionPredicate(
-                    SelectionPredicates.createSelectAnything()
-                ).build()
+        val tracker = SelectionTracker
+            .Builder<Tournament>(
+                "selection-1",
+                binding.rvTournaments,
+                TournamentKeyProvider(adapter),
+                TournamentLookup(binding.rvTournaments),
+                StorageStrategy.createParcelableStorage(Tournament::class.java)
+            ).build()
 
-            tracker.addObserver(object : SelectionTracker.SelectionObserver<Tournament>() {
-                override fun onSelectionChanged() {
-                    super.onSelectionChanged()
-                    if (tracker.hasSelection() && actionMode == null) {
-                        actionMode = requireActivity().startActionMode(ActionModeController(tracker))
-                        setSelectedTitle(tracker.selection.size())
+        tracker.addObserver(object : SelectionTracker.SelectionObserver<Tournament>() {
+            override fun onSelectionChanged() {
+                super.onSelectionChanged()
+                if (tracker.hasSelection() && actionMode == null) {
+                    actionMode = requireActivity().startActionMode(ActionModeController(tracker))
+                    setSelectedTitle(tracker.selection.size())
 
-                    } else if (!tracker.hasSelection()) {
-                        actionMode?.finish()
-                        actionMode = null
-                    } else {
-                        setSelectedTitle(tracker.selection.size())
-                    }
+                } else if (!tracker.hasSelection()) {
+                    actionMode?.finish()
+                } else {
+                    setSelectedTitle(tracker.selection.size())
                 }
-            })
+            }
+        })
 
-            adapter.tracker = tracker
+        adapter.tracker = tracker
+
+        homeViewModel.tournaments.observe(viewLifecycleOwner, Observer {
             tournaments = it
         })
+
 
         return binding.root
     }
@@ -131,10 +130,11 @@ class HomeFragment : Fragment() {
         }
 
         override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            return true
+            return false
         }
 
         override fun onDestroyActionMode(mode: ActionMode?) {
+            actionMode = null
             tracker.clearSelection()
         }
 

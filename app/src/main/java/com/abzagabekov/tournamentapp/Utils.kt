@@ -1,6 +1,7 @@
 package com.abzagabekov.tournamentapp
 
 import android.view.MotionEvent
+import android.view.View
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.selection.ItemDetailsLookup
@@ -19,12 +20,14 @@ import com.abzagabekov.tournamentapp.ui.home.TournamentsAdapter
 const val TYPE_LEAGUE = 0
 const val TYPE_KNOCKOUT = 1
 
-class TournamentKeyProvider(private val items: List<Tournament>,
-                            private val recyclerView: RecyclerView) : ItemKeyProvider<Tournament>(ItemKeyProvider.SCOPE_MAPPED) {
-    override fun getKey(position: Int) = items.getOrNull(position)
+class TournamentKeyProvider(private val adapter: TournamentsAdapter) :
+    ItemKeyProvider<Tournament>(ItemKeyProvider.SCOPE_CACHED) {
+
+    override fun getKey(position: Int): Tournament {
+        return adapter.currentList[position]
+    }
     override fun getPosition(key: Tournament): Int {
-        val viewHolder = recyclerView.findViewHolderForItemId(key.id)
-        return viewHolder?.layoutPosition ?: RecyclerView.NO_POSITION
+        return adapter.currentList.indexOf(key)
     }
 }
 
