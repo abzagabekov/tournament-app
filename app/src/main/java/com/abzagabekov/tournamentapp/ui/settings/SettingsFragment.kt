@@ -25,8 +25,6 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         const val KEY_LANGUAGE = "language"
     }
 
-    private lateinit var settingsViewModel: SettingsViewModel
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.preferences)
     }
@@ -55,7 +53,7 @@ class SettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSharedP
         preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
-    fun setLocale(lang: String?) {
+    private fun setLocale(lang: String?) {
         val myLocale = Locale(lang)
         val res: Resources = resources
         val dm: DisplayMetrics = res.getDisplayMetrics()

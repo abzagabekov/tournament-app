@@ -75,6 +75,7 @@
                             android:text="@string/points"
                             android:textStyle="bold"
                             android:textAppearance="@android:style/TextAppearance.Material"
+                            android:background="@drawable/table_cell_bg"
                             android:layout_marginStart="2dp"/>
 
                     </TableRow>
