@@ -1,6 +1,7 @@
 package com.abzagabekov.tournamentapp.ui.fixtures
 
 import android.content.res.Resources
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,7 @@ import com.abzagabekov.tournamentapp.TYPE_KNOCKOUT
 import com.abzagabekov.tournamentapp.database.MatchDao
 import com.abzagabekov.tournamentapp.database.TeamDao
 import com.abzagabekov.tournamentapp.database.TournamentDao
+import com.abzagabekov.tournamentapp.pojo.KnockoutMatchAggregate
 import com.abzagabekov.tournamentapp.pojo.Match
 import com.abzagabekov.tournamentapp.pojo.Team
 import com.abzagabekov.tournamentapp.pojo.Tournament
@@ -24,6 +26,10 @@ import javax.inject.Inject
 class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDao,
                                             private val teamDataSource: TeamDao,
                                             private val tournamentDataSource: TournamentDao) : ViewModel() {
+
+    companion object {
+        private const val LOG_TAG = "FixturesVMLogs"
+    }
 
     lateinit var fixtures: LiveData<List<Match>>
     lateinit var teams: LiveData<List<Team>>
@@ -77,20 +83,72 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
         } else {
             _eventGoToNextTour.value = true
             coroutineScope.launch {
-                createNewTourForKnockout()
-                _eventGoToNextTour.value = false
+                try {
+                    createNewTourForKnockout()
+                    _eventGoToNextTour.value = false
+                } catch (e: GoalsEqualException) {
+                    _eventShowErrorMessage.value = true
+                    Log.d(LOG_TAG, "Exception on createNewTourForKnockout: ${e.message}")
+                }
             }
         }
     }
 
+    @Throws(GoalsEqualException::class)
     private suspend fun createNewTourForKnockout() {
 
         val teamIds = ArrayList<Long>()
-        fixtures.value?.forEach {
-            teamIds.add( if (it.homeTeamGoals!! <= it.awayTeamGoals!!) it.awayTeam else it.homeTeam)
+
+        fixtures.value?.let {matches ->
+            if (currentTournament!!.isTwoLeg) {
+                val kmaList = ArrayList<KnockoutMatchAggregate>()
+
+                for (i in 0 until matches.size / 2) {
+                    kmaList.add(i, KnockoutMatchAggregate(Pair(matches[i].homeTeam, matches[i].awayTeam)))
+                }
+
+                matches.forEach {match->
+                    kmaList.forEach {
+                        if (match.homeTeam == it.teams.first) {
+                            it.firstTeamHomeGoals = match.homeTeamGoals ?: 0
+                            it.secondTeamAwayGoals = match.awayTeamGoals ?: 0
+                        } else if (match.awayTeam == it.teams.first) {
+                            it.firstTeamAwayGoals = match.awayTeamGoals ?: 0
+                            it.secondTeamHomeGoals = match.homeTeamGoals ?: 0
+                        }
+                    }
+                }
+
+                kmaList.forEach {
+                    val firstTeamGoals = it.firstTeamHomeGoals + it.firstTeamAwayGoals
+                    val secondTeamGoals = it.secondTeamHomeGoals + it.secondTeamAwayGoals
+                    when {
+                        firstTeamGoals > secondTeamGoals -> {
+                            teamIds.add(it.teams.first)
+                        }
+                        firstTeamGoals < secondTeamGoals -> {
+                            teamIds.add(it.teams.second)
+                        }
+                        firstTeamGoals == secondTeamGoals -> {
+                            if (it.firstTeamAwayGoals > it.secondTeamAwayGoals) {
+                                teamIds.add(it.teams.first)
+                            } else if (it.firstTeamAwayGoals < it.secondTeamAwayGoals) {
+                                teamIds.add(it.teams.second)
+                            } else {
+                                throw GoalsEqualException("Teams away goals must not be equal")
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                matches.forEach {
+                    teamIds.add( if (it.homeTeamGoals!! <= it.awayTeamGoals!!) it.awayTeam else it.homeTeam)
+                }
+            }
         }
 
-        teams.value?.filter { it.id in teamIds }?.let {
+        teams.value?.filter { it.id in teamIds.toSet() }?.let {
             val newFixtures = FixturesAlgorithm(it).generateTourForKickOff(isTwoLeg = currentTournament!!.isTwoLeg)
             clearFixtures()
             insertMatches(createNewMatches(newFixtures))
@@ -148,4 +206,5 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
         viewModelJob.cancel()
     }
 
+    private class GoalsEqualException(message: String) : java.lang.Exception(message)
 }

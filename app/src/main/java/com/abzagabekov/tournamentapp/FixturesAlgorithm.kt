@@ -32,7 +32,7 @@ class FixturesAlgorithm<T>(private val _teams: List<T>) {
     }
 
     fun generateTourForKickOff(teams: List<T> = _teams, isTwoLeg: Boolean): Set<List<MutableList<T?>>> {
-        val mutTeams = teams.toMutableList().apply { shuffle() }
+        val mutTeams = teams.toMutableList()
         val tour = List(teams.size / 2){ MutableList<T?>(2){null}}
         for (i in tour.indices) {
             tour[i][0] = mutTeams.removeAt(0)
