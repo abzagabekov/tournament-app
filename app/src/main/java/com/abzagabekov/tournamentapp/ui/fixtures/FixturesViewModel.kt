@@ -107,40 +107,9 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
                     kmaList.add(i, KnockoutMatchAggregate(Pair(matches[i].homeTeam, matches[i].awayTeam)))
                 }
 
-                matches.forEach {match->
-                    kmaList.forEach {
-                        if (match.homeTeam == it.teams.first) {
-                            it.firstTeamHomeGoals = match.homeTeamGoals ?: 0
-                            it.secondTeamAwayGoals = match.awayTeamGoals ?: 0
-                        } else if (match.awayTeam == it.teams.first) {
-                            it.firstTeamAwayGoals = match.awayTeamGoals ?: 0
-                            it.secondTeamHomeGoals = match.homeTeamGoals ?: 0
-                        }
-                    }
-                }
+                initKMAs(matches, kmaList)
 
-                kmaList.forEach {
-                    val firstTeamGoals = it.firstTeamHomeGoals + it.firstTeamAwayGoals
-                    val secondTeamGoals = it.secondTeamHomeGoals + it.secondTeamAwayGoals
-                    when {
-                        firstTeamGoals > secondTeamGoals -> {
-                            teamIds.add(it.teams.first)
-                        }
-                        firstTeamGoals < secondTeamGoals -> {
-                            teamIds.add(it.teams.second)
-                        }
-                        firstTeamGoals == secondTeamGoals -> {
-                            if (it.firstTeamAwayGoals > it.secondTeamAwayGoals) {
-                                teamIds.add(it.teams.first)
-                            } else if (it.firstTeamAwayGoals < it.secondTeamAwayGoals) {
-                                teamIds.add(it.teams.second)
-                            } else {
-                                throw GoalsEqualException("Teams away goals must not be equal")
-                            }
-                        }
-                    }
-                }
-
+                defineNextTourTeams(kmaList, teamIds)
             } else {
                 matches.forEach {
                     teamIds.add( if (it.homeTeamGoals!! <= it.awayTeamGoals!!) it.awayTeam else it.homeTeam)
@@ -152,6 +121,54 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
             val newFixtures = FixturesAlgorithm(it).generateTourForKickOff(isTwoLeg = currentTournament!!.isTwoLeg)
             clearFixtures()
             insertMatches(createNewMatches(newFixtures))
+        }
+    }
+
+    private fun defineNextTourTeams(
+        kmaList: ArrayList<KnockoutMatchAggregate>,
+        teamIds: ArrayList<Long>
+    ) {
+        kmaList.forEach {
+            val firstTeamGoals = it.firstTeamHomeGoals + it.firstTeamAwayGoals
+            val secondTeamGoals = it.secondTeamHomeGoals + it.secondTeamAwayGoals
+            when {
+                firstTeamGoals > secondTeamGoals -> {
+                    teamIds.add(it.teams.first)
+                }
+                firstTeamGoals < secondTeamGoals -> {
+                    teamIds.add(it.teams.second)
+                }
+                firstTeamGoals == secondTeamGoals -> {
+                    when {
+                        it.firstTeamAwayGoals > it.secondTeamAwayGoals -> {
+                            teamIds.add(it.teams.first)
+                        }
+                        it.firstTeamAwayGoals < it.secondTeamAwayGoals -> {
+                            teamIds.add(it.teams.second)
+                        }
+                        else -> {
+                            throw GoalsEqualException("Teams away goals must not be equal")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initKMAs(
+        matches: List<Match>,
+        kmaList: ArrayList<KnockoutMatchAggregate>
+    ) {
+        matches.forEach { match ->
+            kmaList.forEach {
+                if (match.homeTeam == it.teams.first) {
+                    it.firstTeamHomeGoals = match.homeTeamGoals ?: 0
+                    it.secondTeamAwayGoals = match.awayTeamGoals ?: 0
+                } else if (match.awayTeam == it.teams.first) {
+                    it.firstTeamAwayGoals = match.awayTeamGoals ?: 0
+                    it.secondTeamHomeGoals = match.homeTeamGoals ?: 0
+                }
+            }
         }
     }
 
