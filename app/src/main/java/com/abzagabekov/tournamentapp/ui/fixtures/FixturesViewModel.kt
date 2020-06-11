@@ -118,7 +118,7 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
         }
 
         teams.value?.filter { it.id in teamIds.toSet() }?.let {
-            val newFixtures = FixturesAlgorithm(it).generateTourForKickOff(isTwoLeg = currentTournament!!.isTwoLeg)
+            val newFixtures = FixturesAlgorithm(it.reversed()).generateTourForKickOff(isTwoLeg = currentTournament!!.isTwoLeg)
             clearFixtures()
             insertMatches(createNewMatches(newFixtures))
         }
