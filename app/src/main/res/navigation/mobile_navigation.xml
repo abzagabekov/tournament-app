@@ -52,6 +52,9 @@
         <argument
             android:name="tournamentId"
             app:argType="long" />
+        <argument
+            android:name="tournamentType"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/fixturesFragment"

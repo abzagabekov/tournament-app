@@ -4,12 +4,12 @@ import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.abzagabekov.tournamentapp.FixturesAlgorithm
-import com.abzagabekov.tournamentapp.R
-import com.abzagabekov.tournamentapp.TYPE_LEAGUE
+import com.abzagabekov.tournamentapp.*
+import com.abzagabekov.tournamentapp.database.KnockoutNodeDao
 import com.abzagabekov.tournamentapp.database.MatchDao
 import com.abzagabekov.tournamentapp.database.TeamDao
 import com.abzagabekov.tournamentapp.database.TournamentDao
+import com.abzagabekov.tournamentapp.pojo.KnockoutNode
 import com.abzagabekov.tournamentapp.pojo.Match
 import com.abzagabekov.tournamentapp.pojo.Team
 import com.abzagabekov.tournamentapp.pojo.Tournament
@@ -25,7 +25,8 @@ import javax.inject.Inject
 
 class NewTournamentViewModel @Inject constructor(private val tournamentDataSource: TournamentDao,
                                                  private val matchesDataSource: MatchDao,
-                                                 private val teamDataSource: TeamDao) : ViewModel() {
+                                                 private val teamDataSource: TeamDao,
+                                                 private val nodesDataSource: KnockoutNodeDao) : ViewModel() {
 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
@@ -78,6 +79,8 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
             isTwoLeg = isTwoLeg
         )
 
+
+
         coroutineScope.launch {
             insertTournament(tournament)
 
@@ -85,8 +88,48 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
 
             generateSchedule(if (isNeedBlankTeam) teamsCount + 1 else teamsCount, result!!.id, isTwoLeg)
 
+            if (tournamentType == resources.getStringArray(R.array.tournament_types_array)[TYPE_KNOCKOUT]) {
+                createKnockoutNodes(teamsCount, result.id)
+            }
+
             _navigateToTournamentMenu.value = result
             _eventCreateNewTournament.value = false
+        }
+    }
+
+    private suspend fun createKnockoutNodes(teamsCount: Int, tournamentId: Long) {
+        val nodes = ArrayList<KnockoutNode>()
+        for (i in 1 until teamsCount * 2) {
+            nodes.add(KnockoutNode(name = "Node $i", tournament = tournamentId))
+        }
+        insertNodes(nodes)
+
+        val sortedNodes = withContext(Dispatchers.IO) {nodesDataSource.getNodesOfTournament(tournamentId)}
+
+        fillNodesParents(sortedNodes)
+
+        val teams = withContext(Dispatchers.IO) {
+            teamDataSource.getTeamsOfTournamentSync(tournamentId).reversed()
+        }
+
+        fillNodesNames(sortedNodes, teams)
+
+        updateNodes(sortedNodes)
+    }
+
+    private fun fillNodesNames(sortedNodes: List<KnockoutNode>, teams: List<Team>) {
+        sortedNodes.takeLast(teams.size).forEachIndexed { index, knockoutNode ->
+            knockoutNode.name = teams[index].name
+        }
+    }
+
+    private fun fillNodesParents(sortedNodes: List<KnockoutNode>) {
+        sortedNodes[0].parent = null
+        var parentIncrement = sortedNodes[0].id
+        for (i in 1 until sortedNodes.size step 2) {
+            sortedNodes[i].parent = parentIncrement
+            sortedNodes[i + 1].parent = parentIncrement
+            parentIncrement++
         }
     }
 
@@ -100,7 +143,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     }
 
     fun doneShowErrorMessage() {
-        _eventShowErrorMessage.value= InputErrorCodes.CLEAR
+        _eventShowErrorMessage.value = InputErrorCodes.CLEAR
         _eventCreateNewTournament.value = false
     }
 
@@ -113,6 +156,20 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     private suspend fun insertMatches(match: List<Match>) {
         withContext(Dispatchers.IO) {
             matchesDataSource.insertMatches(match)
+        }
+    }
+
+    private suspend fun insertNodes(nodes: List<KnockoutNode>) {
+        withContext(Dispatchers.IO) {
+            nodesDataSource.insertNodes(nodes)
+        }
+    }
+
+    private suspend fun updateNodes(nodes: List<KnockoutNode>) {
+        withContext(Dispatchers.IO) {
+            nodes.forEach {
+                nodesDataSource.update(it)
+            }
         }
     }
 
@@ -140,7 +197,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
                 return false
             }
         }
-        return true
+        return teamsCount <= MAX_TEAMS_COUNT
     }
 
     private suspend fun generateSchedule(teamsCount: Int, tournamentId: Long, isTwoLeg: Boolean) {

@@ -87,5 +87,11 @@
         </androidx.core.widget.NestedScrollView>
 
 
+        <de.blox.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/graph"
+            android:visibility="gone"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -117,6 +117,7 @@ dependencies {
     // Preference UI
     implementation "androidx.preference:preference:1.1.1"
 
-
+    // GraphView
+    implementation "de.blox:graphview:0.6.1"
 
 }

@@ -41,6 +41,12 @@ class AppModule(private val applicationContext: Context) {
 
     @Provides
     @Singleton
+    fun nodesDao(appDatabase: AppDatabase): KnockoutNodeDao {
+        return appDatabase.nodesDao
+    }
+
+    @Provides
+    @Singleton
     fun appDatabase(): AppDatabase {
         return Room.databaseBuilder(applicationContext, AppDatabase::class.java, AppDatabase.DB_NAME).fallbackToDestructiveMigration().build()
     }

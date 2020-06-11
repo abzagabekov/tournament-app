@@ -19,6 +19,7 @@ import com.abzagabekov.tournamentapp.ui.home.TournamentsAdapter
 
 const val TYPE_LEAGUE = 0
 const val TYPE_KNOCKOUT = 1
+const val MAX_TEAMS_COUNT = 64
 
 class TournamentKeyProvider(private val adapter: TournamentsAdapter) :
     ItemKeyProvider<Tournament>(ItemKeyProvider.SCOPE_CACHED) {
