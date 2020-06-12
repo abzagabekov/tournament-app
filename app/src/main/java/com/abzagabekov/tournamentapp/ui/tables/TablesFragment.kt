@@ -141,64 +141,6 @@ class TablesFragment : Fragment() {
         }
     }
 
-    private fun showResultGraphTest(binding: TablesFragmentBinding) {
-        var nodeCount = 1
-        val graph = Graph()
-        val node1 = Node("Node " + nodeCount++)
-        val node2 = Node("Node " + nodeCount++)
-        val node3 = Node("Node " + nodeCount++)
-        val node4 = Node("Node " + nodeCount++)
-        val node5 = Node("Node " + nodeCount++)
-        val node6 = Node("Node " + nodeCount++)
-        val node7 = Node("Node " + nodeCount++)
-        val node8 = Node("Node " + nodeCount++)
-        val node9 = Node("Node " + nodeCount++)
-        val node10 = Node("Node " + nodeCount++)
-        val node11 = Node("Node " + nodeCount++)
-        val node12 = Node("Node " + nodeCount++)
-        val node13 = Node("Node " + nodeCount++)
-        val node14 = Node("Node " + nodeCount++)
-        val node15 = Node("Node " + nodeCount++)
-
-        graph.addEdge(node1, node2)
-        graph.addEdge(node1, node3)
-        graph.addEdge(node2, node4)
-        graph.addEdge(node2, node5)
-        graph.addEdge(node3, node6)
-        graph.addEdge(node3, node7)
-        graph.addEdge(node4, node8)
-        graph.addEdge(node4, node9)
-        graph.addEdge(node5, node10)
-        graph.addEdge(node5, node11)
-        graph.addEdge(node6, node12)
-        graph.addEdge(node6, node13)
-        graph.addEdge(node7, node14)
-        graph.addEdge(node7, node15)
-
-        val adapter = object : BaseGraphAdapter<ViewHolder>(graph) {
-            override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-                val view = LayoutInflater.from(parent?.context).inflate(R.layout.node, parent, false)
-                return NodesViewHolder(view)
-            }
-
-            override fun onBindViewHolder(viewHolder: ViewHolder?, data: Any?, position: Int) {
-                (viewHolder as NodesViewHolder).textView.text = data.toString().trim()
-            }
-        }
-
-        binding.graph.adapter = adapter
-
-        val config = BuchheimWalkerConfiguration.Builder()
-            .setSiblingSeparation(100)
-            .setLevelSeparation(200)
-            .setSubtreeSeparation(200)
-            .setOrientation(BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM)
-            .build()
-
-        adapter.algorithm = BuchheimWalkerAlgorithm(config)
-
-    }
-
     class NodesViewHolder(itemView: View) : ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.tv_node)
     }

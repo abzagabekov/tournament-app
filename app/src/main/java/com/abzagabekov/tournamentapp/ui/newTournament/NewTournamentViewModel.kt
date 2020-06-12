@@ -120,6 +120,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     private fun fillNodesNames(sortedNodes: List<KnockoutNode>, teams: List<Team>) {
         sortedNodes.takeLast(teams.size).forEachIndexed { index, knockoutNode ->
             knockoutNode.name = teams[index].name
+            knockoutNode.teamId = teams[index].id
         }
     }
 

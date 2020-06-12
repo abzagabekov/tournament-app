@@ -23,5 +23,6 @@ data class KnockoutNode(
     val id: Long = 0,
     var parent: Long? = 0,
     var name: String,
+    var teamId: Long? = null,
     val tournament: Long
 )

@@ -19,4 +19,10 @@ interface KnockoutNodeDao {
 
     @Query("SELECT * FROM `KnockoutNode` WHERE tournament = :id ORDER BY id")
     fun getNodesOfTournament(id: Long): List<KnockoutNode>
+
+    @Query("SELECT * FROM KnockoutNode WHERE teamId = :teamId ORDER BY id LIMIT 1")
+    fun getLastNodeOfTeam(teamId: Long): KnockoutNode
+
+    @Query("SELECT * FROM KnockoutNode WHERE id = :id")
+    fun getNodeById(id: Long): KnockoutNode
 }

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.abzagabekov.tournamentapp.FixturesAlgorithm
 import com.abzagabekov.tournamentapp.R
 import com.abzagabekov.tournamentapp.TYPE_KNOCKOUT
+import com.abzagabekov.tournamentapp.database.KnockoutNodeDao
 import com.abzagabekov.tournamentapp.database.MatchDao
 import com.abzagabekov.tournamentapp.database.TeamDao
 import com.abzagabekov.tournamentapp.database.TournamentDao
@@ -25,7 +26,8 @@ import javax.inject.Inject
 
 class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDao,
                                             private val teamDataSource: TeamDao,
-                                            private val tournamentDataSource: TournamentDao) : ViewModel() {
+                                            private val tournamentDataSource: TournamentDao,
+                                            private val nodesDataSource: KnockoutNodeDao) : ViewModel() {
 
     companion object {
         private const val LOG_TAG = "FixturesVMLogs"
@@ -108,7 +110,6 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
                 }
 
                 initKMAs(matches, kmaList)
-
                 defineNextTourTeams(kmaList, teamIds)
             } else {
                 matches.forEach {
@@ -116,6 +117,8 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
                 }
             }
         }
+
+        updateKnockoutNodes(teamIds)
 
         teams.value?.filter { it.id in teamIds.toSet() }?.let {
             val newFixtures = FixturesAlgorithm(it.reversed()).generateTourForKickOff(isTwoLeg = currentTournament!!.isTwoLeg)
@@ -151,6 +154,18 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private suspend fun updateKnockoutNodes(teams: List<Long>) {
+        withContext(Dispatchers.IO) {
+            teams.forEach {
+                val node = nodesDataSource.getLastNodeOfTeam(it)
+                val parentNode = nodesDataSource.getNodeById(node.parent!!)
+                parentNode.name = node.name + " "
+                parentNode.teamId = it
+                nodesDataSource.update(parentNode)
             }
         }
     }
