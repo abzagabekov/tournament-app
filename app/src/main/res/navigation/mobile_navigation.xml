@@ -47,7 +47,7 @@
     <fragment
         android:id="@+id/tablesFragment"
         android:name="com.abzagabekov.tournamentapp.ui.tables.TablesFragment"
-        android:label="tables_fragment"
+        android:label="@string/results"
         tools:layout="@layout/tables_fragment" >
         <argument
             android:name="tournamentId"
@@ -59,7 +59,7 @@
     <fragment
         android:id="@+id/fixturesFragment"
         android:name="com.abzagabekov.tournamentapp.ui.fixtures.FixturesFragment"
-        android:label="fixtures_fragment"
+        android:label="@string/fixtures"
         tools:layout="@layout/fixtures_fragment" >
         <action
             android:id="@+id/action_fixturesFragment_to_newMatchFragment"
@@ -71,7 +71,7 @@
     <fragment
         android:id="@+id/newTournamentFragment"
         android:name="com.abzagabekov.tournamentapp.ui.newTournament.NewTournamentFragment"
-        android:label="new_tournament_fragment"
+        android:label="@string/add_new_tournament"
         tools:layout="@layout/new_tournament_fragment" >
         <action
             android:id="@+id/action_newTournamentFragment_to_tournamentFragment"
@@ -81,7 +81,7 @@
     <fragment
         android:id="@+id/newMatchFragment"
         android:name="com.abzagabekov.tournamentapp.ui.newMatch.NewMatchFragment"
-        android:label="new_match_fragment"
+        android:label="@string/new_match"
         tools:layout="@layout/new_match_fragment" >
         <argument
             android:name="match"
@@ -93,7 +93,7 @@
     <fragment
         android:id="@+id/teamsFragment"
         android:name="com.abzagabekov.tournamentapp.ui.teams.TeamsFragment"
-        android:label="TeamsFragment"
+        android:label="@string/all_teams"
         tools:layout="@layout/fragment_teams">
         <argument
             android:name="tournamentId"

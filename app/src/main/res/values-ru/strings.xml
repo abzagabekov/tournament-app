@@ -45,5 +45,9 @@
     <string name="complete_tournament">Завершить турнир</string>
     <string name="tournament_over">Турнир завершен</string>
     <string name="edit">Изменить</string>
+    <string name="results">Итоги</string>
+    <string name="add_new_tournament">Добавить новый турнир</string>
+    <string name="new_match">Новый матч</string>
+    <string name="all_teams">Все команды</string>
 
 </resources>
