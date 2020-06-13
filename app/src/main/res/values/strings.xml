@@ -34,6 +34,7 @@
     <string name="error_invalid_teams_count">Error! Invalid teams count!</string>
     <string name="team_name">Team name</string>
     <string name="add">Add</string>
+    <string name="edit">Edit</string>
     <string name="cancel">Cancel</string>
     <string name="play_match">Play match</string>
     <string name="team">Team</string>

@@ -151,18 +151,22 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
                             teamIds.add(it.teams.second)
                         }
                         else -> {
-                            withContext(Dispatchers.IO) {
-                                val match = matchDataSource.getMatch(it.teams.second, it.teams.first)
-                                match?.let {m ->
-                                    m.homeTeamGoals = null
-                                    m.awayTeamGoals = null
-                                    matchDataSource.update(m)
-                                }
-                            }
+                            revertMatch(it)
                             throw GoalsEqualException("Teams away goals must not be equal")
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private suspend fun revertMatch(it: KnockoutMatchAggregate) {
+        withContext(Dispatchers.IO) {
+            val match = matchDataSource.getMatch(it.teams.second, it.teams.first)
+            match?.let { m ->
+                m.homeTeamGoals = null
+                m.awayTeamGoals = null
+                matchDataSource.update(m)
             }
         }
     }
