@@ -87,10 +87,11 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
             coroutineScope.launch {
                 try {
                     createNewTourForKnockout()
-                    _eventGoToNextTour.value = false
                 } catch (e: GoalsEqualException) {
                     _eventShowErrorMessage.value = true
                     Log.d(LOG_TAG, "Exception on createNewTourForKnockout: ${e.message}")
+                } finally {
+                    _eventGoToNextTour.value = false
                 }
             }
         }
@@ -102,7 +103,7 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
         val teamIds = ArrayList<Long>()
 
         fixtures.value?.let {matches ->
-            if (currentTournament!!.isTwoLeg) {
+            if (currentTournament!!.isTwoLeg && matches.size > 1) {
                 val kmaList = ArrayList<KnockoutMatchAggregate>()
 
                 for (i in 0 until matches.size / 2) {
@@ -127,7 +128,7 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
         }
     }
 
-    private fun defineNextTourTeams(
+    private suspend fun defineNextTourTeams(
         kmaList: ArrayList<KnockoutMatchAggregate>,
         teamIds: ArrayList<Long>
     ) {
@@ -150,6 +151,14 @@ class FixturesViewModel @Inject constructor(private val matchDataSource: MatchDa
                             teamIds.add(it.teams.second)
                         }
                         else -> {
+                            withContext(Dispatchers.IO) {
+                                val match = matchDataSource.getMatch(it.teams.second, it.teams.first)
+                                match?.let {m ->
+                                    m.homeTeamGoals = null
+                                    m.awayTeamGoals = null
+                                    matchDataSource.update(m)
+                                }
+                            }
                             throw GoalsEqualException("Teams away goals must not be equal")
                         }
                     }

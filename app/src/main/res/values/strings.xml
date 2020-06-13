@@ -49,6 +49,8 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="language">Language</string>
     <string name="selected">Selected</string>
+    <string name="complete_tournament">Complete tournament</string>
+    <string name="tournament_over">Tournament is over</string>
 
     <string-array name="tournament_types_array">
         <item>League</item> <!-- TYPE_LEAGUE position 0 -->

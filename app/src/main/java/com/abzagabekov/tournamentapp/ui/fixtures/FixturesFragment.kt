@@ -81,9 +81,15 @@ class FixturesFragment : Fragment() {
         })
 
         viewModel.fixtures.observe(viewLifecycleOwner, Observer {
-            //binding.btnNextTour.isEnabled = it.size != 1
             if (it.isEmpty()) {
-                Toast.makeText(requireContext(), "Tournament is over", Toast.LENGTH_SHORT).show()
+                with(binding) {
+                    btnNextTour.text = getString(R.string.tournament_over)
+                    btnNextTour.isEnabled = false
+                    rvFixtures.visibility = View.GONE
+                    ivCompleteTournament.visibility = View.VISIBLE
+                }
+            } else if (it.size == 1) {
+                binding.btnNextTour.text = getString(R.string.complete_tournament)
             }
         })
 
