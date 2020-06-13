@@ -17,6 +17,9 @@ interface KnockoutNodeDao {
     @Update
     fun update(node: KnockoutNode)
 
+    @Update
+    fun updateNodes(nodes: List<KnockoutNode>)
+
     @Query("SELECT * FROM `KnockoutNode` WHERE tournament = :id ORDER BY id")
     fun getNodesOfTournament(id: Long): List<KnockoutNode>
 
@@ -25,4 +28,7 @@ interface KnockoutNodeDao {
 
     @Query("SELECT * FROM KnockoutNode WHERE id = :id")
     fun getNodeById(id: Long): KnockoutNode
+
+    @Query("SELECT * FROM KnockoutNode WHERE teamId = :id")
+    fun getNodesOfTeam(id: Long): List<KnockoutNode>?
 }
