@@ -128,4 +128,12 @@ dependencies {
     // GraphView
     implementation "de.blox:graphview:0.6.1"
 
+    // Espresso
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+
+    implementation 'androidx.fragment:fragment:1.2.5'
+    debugImplementation 'androidx.fragment:fragment-testing:1.2.5'
+
 }
