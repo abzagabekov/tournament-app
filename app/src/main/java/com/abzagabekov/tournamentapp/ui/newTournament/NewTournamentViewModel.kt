@@ -79,8 +79,6 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
             isTwoLeg = isTwoLeg
         )
 
-
-
         coroutineScope.launch {
             insertTournament(tournament)
 
@@ -183,7 +181,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     }
 
     private fun checkUserInputs(name: String?, teamsCount: Int?): Boolean {
-        return !(tournamentType == null || name == null || teamsCount == null)
+        return !(tournamentType == null || name.isNullOrEmpty() || teamsCount == null)
     }
 
     private fun checkTeamsCount(teamsCount: Int): Boolean {
