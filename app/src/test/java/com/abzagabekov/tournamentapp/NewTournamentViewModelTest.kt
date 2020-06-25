@@ -51,6 +51,7 @@ class NewTournamentViewModelTest {
     @Mock
     private lateinit var observer: Observer<Tournament>
 
+
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
@@ -58,7 +59,8 @@ class NewTournamentViewModelTest {
             tournamentDao,
             matchDao,
             teamDao,
-            knockoutNodeDao
+            knockoutNodeDao,
+            testCoroutineRule.testDispatcherProvider
         ).apply {
             //eventCreateNewTournament.observeForever{}
             //eventShowErrorMessage.observeForever {  }
@@ -117,7 +119,7 @@ class NewTournamentViewModelTest {
 
         // then
         val result = viewModel.navigateToTournamentMenu.value
-        //assertEquals(tournament, result)
+        //assertEquals(tournament2, result)
         verify(observer).onChanged(tournament)
     }
 

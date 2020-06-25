@@ -14,6 +14,7 @@ import com.abzagabekov.tournamentapp.pojo.Match
 import com.abzagabekov.tournamentapp.pojo.Team
 import com.abzagabekov.tournamentapp.pojo.Tournament
 import kotlinx.coroutines.*
+import java.lang.IndexOutOfBoundsException
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -26,10 +27,11 @@ import javax.inject.Inject
 class NewTournamentViewModel @Inject constructor(private val tournamentDataSource: TournamentDao,
                                                  private val matchesDataSource: MatchDao,
                                                  private val teamDataSource: TeamDao,
-                                                 private val nodesDataSource: KnockoutNodeDao) : ViewModel() {
+                                                 private val nodesDataSource: KnockoutNodeDao,
+                                                 private val dispatchers: DispatcherProvider) : ViewModel() {
 
     private val viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(viewModelJob + dispatchers.main())
 
     var tournamentType: String? = null
     var isNeedBlankTeam = false
@@ -82,7 +84,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
         coroutineScope.launch {
             insertTournament(tournament)
 
-            val result = withContext(Dispatchers.IO) { tournamentDataSource.getLastTournament() }
+            val result = withContext(dispatchers.io()) { tournamentDataSource.getLastTournament() }
 
             generateSchedule(if (isNeedBlankTeam) teamsCount + 1 else teamsCount, result!!.id, isTwoLeg)
 
@@ -102,11 +104,11 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
         }
         insertNodes(nodes)
 
-        val sortedNodes = withContext(Dispatchers.IO) {nodesDataSource.getNodesOfTournament(tournamentId)}
+        val sortedNodes = withContext(dispatchers.io()) {nodesDataSource.getNodesOfTournament(tournamentId)}
 
         fillNodesParents(sortedNodes)
 
-        val teams = withContext(Dispatchers.IO) {
+        val teams = withContext(dispatchers.io()) {
             teamDataSource.getTeamsOfTournamentSync(tournamentId).reversed()
         }
 
@@ -147,25 +149,25 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     }
 
     private suspend fun insertTournament(tournament: Tournament) {
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io()) {
             tournamentDataSource.insert(tournament)
         }
     }
 
     private suspend fun insertMatches(match: List<Match>) {
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io()) {
             matchesDataSource.insertMatches(match)
         }
     }
 
     private suspend fun insertNodes(nodes: List<KnockoutNode>) {
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io()) {
             nodesDataSource.insertNodes(nodes)
         }
     }
 
     private suspend fun updateNodes(nodes: List<KnockoutNode>) {
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io()) {
             nodes.forEach {
                 nodesDataSource.update(it)
             }
@@ -173,7 +175,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     }
 
     private suspend fun clearBlankTeam() {
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io()) {
             if (isNeedBlankTeam) {
                 teamDataSource.delete(blankTeamId)
             }
@@ -221,7 +223,7 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
             teams.last().isBlank = true
         }
 
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatchers.io()) {
             teamDataSource.insertTeams(teams)
             val res = teamDataSource.getTeamsOfTournamentSync(tournamentId)
             if (isNeedBlankTeam && res.last().isBlank) {
@@ -234,22 +236,26 @@ class NewTournamentViewModel @Inject constructor(private val tournamentDataSourc
     private fun createMatches(fixtures: Set<List<MutableList<Team?>>>): List<Match> {
 
         val result = ArrayList<Match>()
-        for (tour in fixtures) {
-            for (match in tour) {
+        try {
+            for (tour in fixtures) {
+                for (match in tour) {
 
-                val homeTeam = match[0]!!
-                val awayTeam = match[1]!!
+                    val homeTeam = match[0]!!
+                    val awayTeam = match[1]!!
 
-                if (homeTeam.isBlank || awayTeam.isBlank)
-                    continue
+                    if (homeTeam.isBlank || awayTeam.isBlank)
+                        continue
 
-                result.add(
-                    Match(
-                    homeTeam = homeTeam.id,
-                        awayTeam = awayTeam.id,
-                        tournament = homeTeam.tournament
-                ))
+                    result.add(
+                        Match(
+                            homeTeam = homeTeam.id,
+                            awayTeam = awayTeam.id,
+                            tournament = homeTeam.tournament
+                        ))
+                }
             }
+        } catch (e: IndexOutOfBoundsException) {
+            //e.printStackTrace()
         }
         return result
     }
