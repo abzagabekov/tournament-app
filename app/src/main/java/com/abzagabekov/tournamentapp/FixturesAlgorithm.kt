@@ -39,7 +39,7 @@ class FixturesAlgorithm<T>(private val _teams: List<T>) {
             tour[i][1] = mutTeams.removeAt(0)
         }
         val secondLeg = mirrorRound(tour)
-        return if (isTwoLeg) setOf(tour + secondLeg) else setOf(tour)
+        return if (isTwoLeg && teams.size != 2) setOf(tour + secondLeg) else setOf(tour)
     }
 
     private fun showFixtures(round: List<List<T?>>) {

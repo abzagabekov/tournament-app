@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Tournament App</string>
+    <string name="app_name" translatable="false">Tournament Helper</string>
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="nav_header_title" translatable="false">Android Studio</string>
@@ -34,6 +34,7 @@
     <string name="error_invalid_teams_count">Error! Invalid teams count!</string>
     <string name="team_name">Team name</string>
     <string name="add">Add</string>
+    <string name="edit">Edit</string>
     <string name="cancel">Cancel</string>
     <string name="play_match">Play match</string>
     <string name="team">Team</string>
@@ -49,6 +50,12 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="language">Language</string>
     <string name="selected">Selected</string>
+    <string name="complete_tournament">Complete tournament</string>
+    <string name="tournament_over">Tournament is over</string>
+    <string name="results">Results</string>
+    <string name="add_new_tournament">Add new Tournament</string>
+    <string name="new_match">New match</string>
+    <string name="all_teams">All teams</string>
 
     <string-array name="tournament_types_array">
         <item>League</item> <!-- TYPE_LEAGUE position 0 -->

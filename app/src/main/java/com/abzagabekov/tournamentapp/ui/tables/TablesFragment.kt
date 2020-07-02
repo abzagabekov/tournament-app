@@ -9,17 +9,21 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableRow
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.abzagabekov.tournamentapp.App
-import com.abzagabekov.tournamentapp.AssistedSavedStateViewModelFactory
-
+import com.abzagabekov.tournamentapp.*
 import com.abzagabekov.tournamentapp.R
+
 import com.abzagabekov.tournamentapp.databinding.TablesFragmentBinding
 import com.abzagabekov.tournamentapp.di.InjectingSavedStateViewModelFactory
+import com.abzagabekov.tournamentapp.pojo.KnockoutNode
 import com.abzagabekov.tournamentapp.pojo.ResultTable
 import com.abzagabekov.tournamentapp.ui.ViewModelFactory
+import de.blox.graphview.*
+import de.blox.graphview.tree.BuchheimWalkerAlgorithm
+import de.blox.graphview.tree.BuchheimWalkerConfiguration
 import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.android.synthetic.main.sample_pos_table_row.view.*
 import kotlinx.android.synthetic.main.sample_short_table_row.view.*
@@ -40,6 +44,8 @@ class TablesFragment : Fragment() {
     @Inject lateinit var abstractFactory: InjectingSavedStateViewModelFactory
     private lateinit var viewModel: TablesViewModel
 
+    private var graph: Graph? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,7 +55,10 @@ class TablesFragment : Fragment() {
 
         val arguments = TablesFragmentArgs.fromBundle(requireArguments())
 
-        val defArgs = bundleOf(TablesViewModel.KEY_TOURNAMENT_ID to arguments.tournamentId)
+        val defArgs = bundleOf(TablesViewModel.KEY_TOURNAMENT_ID to arguments.tournamentId,
+            TablesViewModel.KEY_TOURNAMENT_TYPE to arguments.tournamentType,
+            TablesViewModel.KEY_TYPE_LEAGUE to resources.getStringArray(R.array.tournament_types_array)[TYPE_LEAGUE],
+            TablesViewModel.KEY_TYPE_KNOCKOUT to resources.getStringArray(R.array.tournament_types_array)[TYPE_KNOCKOUT])
 
         App.appComponent.inject(this)
 
@@ -61,7 +70,50 @@ class TablesFragment : Fragment() {
             showResultTable(it, inflater, container, binding)
         })
 
+        viewModel.eventShowResultGraph.observe(viewLifecycleOwner, Observer {
+            showResultGraph(it, graph!!)
+        })
+
+        if (arguments.tournamentType == resources.getStringArray(R.array.tournament_types_array)[TYPE_KNOCKOUT]) {
+            binding.tableOverview.visibility = View.GONE
+            binding.graph.visibility = View.VISIBLE
+
+            initGraphAdapter(binding)
+
+        } else {
+            binding.tableOverview.visibility = View.VISIBLE
+            binding.graph.visibility = View.GONE
+        }
+
         return binding.root
+    }
+
+    private fun initGraphAdapter(binding: TablesFragmentBinding) {
+
+        graph = Graph()
+
+        val adapter = object : BaseGraphAdapter<ViewHolder>(graph!!) {
+            override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
+                val view =
+                    LayoutInflater.from(parent?.context).inflate(R.layout.node, parent, false)
+                return NodesViewHolder(view)
+            }
+
+            override fun onBindViewHolder(viewHolder: ViewHolder?, data: Any?, position: Int) {
+                (viewHolder as NodesViewHolder).textView.text = data.toString().trim()
+            }
+        }
+
+        binding.graph.adapter = adapter
+
+        val config = BuchheimWalkerConfiguration.Builder()
+            .setSiblingSeparation(100)
+            .setLevelSeparation(200)
+            .setSubtreeSeparation(200)
+            .setOrientation(BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM)
+            .build()
+
+        adapter.algorithm = BuchheimWalkerAlgorithm(config)
     }
 
     private fun showResultTable(results: List<ResultTable>,
@@ -79,5 +131,18 @@ class TablesFragment : Fragment() {
         }
     }
 
+    private fun showResultGraph(results: List<KnockoutNode>, graph: Graph) {
+        val nodes = mutableMapOf<Long, Node>()
+        nodes[results[0].id] = Node(results[0].name)
+
+        for (i in 1 until results.size) {
+            nodes[results[i].id] = Node(results[i].name)
+            graph.addEdge(nodes[results[i].parent]!!, nodes[results[i].id]!!)
+        }
+    }
+
+    class NodesViewHolder(itemView: View) : ViewHolder(itemView) {
+        val textView: TextView = itemView.findViewById(R.id.tv_node)
+    }
 
 }

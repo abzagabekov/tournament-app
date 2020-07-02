@@ -44,7 +44,7 @@ class NewTeamDialogFragment() : DialogFragment() {
         binding.etTeamName.setText(teamName)
 
         builder.setView(binding.root)
-            .setPositiveButton(R.string.add) { _, _ ->
+            .setPositiveButton(R.string.edit) { _, _ ->
                 val teamName = binding.etTeamName.text.toString().trim()
                 if (teamName.isEmpty()) {
                     dismiss()

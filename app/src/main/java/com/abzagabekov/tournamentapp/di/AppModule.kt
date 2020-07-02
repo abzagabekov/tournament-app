@@ -2,6 +2,8 @@ package com.abzagabekov.tournamentapp.di
 
 import android.content.Context
 import androidx.room.Room
+import com.abzagabekov.tournamentapp.DefaultDispatcherProvider
+import com.abzagabekov.tournamentapp.DispatcherProvider
 import com.abzagabekov.tournamentapp.database.*
 import dagger.Module
 import dagger.Provides
@@ -41,7 +43,18 @@ class AppModule(private val applicationContext: Context) {
 
     @Provides
     @Singleton
+    fun nodesDao(appDatabase: AppDatabase): KnockoutNodeDao {
+        return appDatabase.nodesDao
+    }
+
+    @Provides
+    @Singleton
     fun appDatabase(): AppDatabase {
         return Room.databaseBuilder(applicationContext, AppDatabase::class.java, AppDatabase.DB_NAME).fallbackToDestructiveMigration().build()
+    }
+
+    @Provides
+    fun dispatchers(): DispatcherProvider {
+        return DefaultDispatcherProvider()
     }
 }
