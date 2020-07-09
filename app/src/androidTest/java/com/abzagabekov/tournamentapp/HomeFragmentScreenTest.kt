@@ -1,5 +1,6 @@
 package com.abzagabekov.tournamentapp
 
+import android.os.Bundle
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -22,7 +23,7 @@ class HomeFragmentScreenTest {
 
     @Test
     fun testFABisDisplayed() {
-        launchFragmentInContainer<HomeFragment>()
+        launchFragmentInContainer<HomeFragment>(Bundle(), R.style.AppTheme)
         onView(withId(R.id.fab_new_tournament)).check(matches(isDisplayed()))
     }
 }
