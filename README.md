@@ -20,4 +20,4 @@ It leverages the following components:
 
 * [Android](https://play.google.com/store/apps/details?id=com.abzagabekov.tournamentapp)
 
-[<img src="resources/img/google-play-badge.png" height="50">](https://play.google.com/store/apps/details?id=com.abzagabekov.tournamentapp)
+[<img src="google-play-badge.png" height="50">](https://play.google.com/store/apps/details?id=com.abzagabekov.tournamentapp)
